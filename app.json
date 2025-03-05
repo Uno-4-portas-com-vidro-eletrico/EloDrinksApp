@@ -3,6 +3,7 @@
     "name": "EloDrinksApp",
     "slug": "EloDrinksApp",
     "version": "1.0.0",
+    "scheme": "com.uno4portas.EloDrinksApp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,10 +20,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.uno4portas.EloDrinksApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fa264bfd-c6e9-4e98-ae0b-ee37fa12e1b5"
+      }
+    },
+    "owner": "elpandadlmx"
   }
 }
