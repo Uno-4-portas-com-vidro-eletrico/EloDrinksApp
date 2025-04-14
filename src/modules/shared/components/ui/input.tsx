@@ -1,8 +1,7 @@
-import { Eye, EyeOff, TriangleAlert, type icons } from "lucide-react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { forwardRef } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { cn } from "../../utils/cn";
-import { Icon } from "./icon";
 
 export interface InputProps
 	extends React.ComponentPropsWithoutRef<typeof TextInput> {
@@ -10,7 +9,7 @@ export interface InputProps
 	labelClasses?: string;
 	inputClasses?: string;
 	error?: any;
-	leftIcon?: keyof typeof icons;
+	leftIcon?: keyof typeof Ionicons.glyphMap;
 	handleShowPassword?: () => void;
 }
 const Input = forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
@@ -23,11 +22,10 @@ const Input = forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
 			<View className="relative flex items-center w-full">
 				{leftIcon && (
 					<View className="absolute left-4 top-3">
-						<Icon
+						<Ionicons
 							name={leftIcon}
 							size={20}
-							className="text-white"
-							fill={"#aaa"}
+							color="#aaa"
 						/>
 					</View>
 				)}
@@ -48,15 +46,15 @@ const Input = forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
 						onPress={props.handleShowPassword}
 					>
 						{props.secureTextEntry ? (
-							<EyeOff size={20} className="text-zinc-500" />
+							<Ionicons name="eye-off" size={20} color="#aaa" />
 						) : (
-							<Eye size={20} className="text-zinc-500" />
+							<Ionicons name="eye" size={20} color="#aaa" />
 						)}
 					</Pressable>
 				)}
 				{error && (
 					<View className="absolute z-10 right-4 top-3 items-center justify-center">
-						<TriangleAlert size={20} className="text-white" fill={"#F04438"} />
+						<Ionicons name="alert-circle" size={20} color="#F04438" />
 					</View>
 				)}
 			</View>

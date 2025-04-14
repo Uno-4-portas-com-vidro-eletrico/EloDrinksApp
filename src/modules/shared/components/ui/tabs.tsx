@@ -1,7 +1,7 @@
-import { icons } from "lucide-react-native";
-import type React from "react";
 import { createContext, useContext, useState } from "react";
 import { Pressable, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons"; // Importing MaterialIcons from expo-vector-icons
+import type React from "react";
 import { cn } from "../../utils/cn";
 import { Text } from "./text";
 
@@ -11,7 +11,7 @@ interface TabsContextProps {
 }
 const TabsContext = createContext<TabsContextProps>({
 	activeTab: "",
-	setActiveTab: () => {},
+	setActiveTab: () => { },
 });
 
 interface TabsProps {
@@ -47,7 +47,7 @@ interface TabsTriggerProps
 	extends React.ComponentPropsWithoutRef<typeof Pressable> {
 	value: string;
 	title: string | React.ReactNode;
-	icon?: keyof typeof icons;
+	icon?: React.ComponentProps<typeof MaterialIcons>["name"]; // Adjusted for MaterialIcons
 	textClasses?: string;
 }
 function TabsTrigger({
@@ -59,7 +59,7 @@ function TabsTrigger({
 	...props
 }: TabsTriggerProps) {
 	const { activeTab, setActiveTab } = useContext(TabsContext);
-	const LucideIcon = icon ? icons[icon] : null;
+
 	return (
 		<Pressable
 			className={cn(
@@ -75,14 +75,11 @@ function TabsTrigger({
 		>
 			{typeof title === "string" ? (
 				<View className="text-inherit flex-row space-x-2 items-center">
-					{LucideIcon && (
-						<LucideIcon
+					{icon && (
+						<MaterialIcons
+							name={icon}
 							size={24}
-							strokeWidth={1}
-							className={cn({
-								"text-purple-500 ": activeTab === value,
-								"text-zinc-400": activeTab !== value,
-							})}
+							color={activeTab === value ? "#7C3AED" : "#A1A1AA"} // Adjusted colors
 						/>
 					)}
 					<Text

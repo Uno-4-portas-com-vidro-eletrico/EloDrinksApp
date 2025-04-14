@@ -1,12 +1,11 @@
-import { type TypeIcon, icons } from "lucide-react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
-interface IconProps extends React.ComponentPropsWithoutRef<typeof TypeIcon> {
-	name: keyof typeof icons;
+interface IconProps {
+	name: React.ComponentProps<typeof MaterialIcons>["name"];
 	color?: string;
 	size?: number;
 }
 
 export const Icon: React.FC<IconProps> = ({ name, color, size, ...props }) => {
-	const LucideIcon = icons[name];
-	return <LucideIcon color={color} size={size} {...props} />;
+	return <MaterialIcons name={name} color={color} size={size} {...props} />;
 };

@@ -1,4 +1,4 @@
-import { Circle } from "lucide-react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { createContext, useContext, useState } from "react";
 import { Pressable, View } from "react-native";
@@ -67,19 +67,18 @@ function RadioGroupItem({
 		>
 			{selectedValue === value ? (
 				<View className="border-2 border-purple-500 p-[1px] rounded-full">
-					<Circle
+					<MaterialIcons
+						name="radio-button-checked"
 						size={20}
-						fill={"#c164b8"}
-						color={"#fff"}
-						className="border-2 border-purple-500 p-2"
+						color="#c164b8"
 					/>
 				</View>
 			) : (
 				<View className="border-2 border-zinc-400 p-[1px] rounded-full bg-white">
-					<Circle
+					<MaterialIcons
+						name="radio-button-unchecked"
 						size={20}
-						color={"#fff"}
-						className="border-2 border-zinc-500 p-2"
+						color="#ccc"
 					/>
 				</View>
 			)}

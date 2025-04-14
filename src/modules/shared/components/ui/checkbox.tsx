@@ -1,4 +1,4 @@
-import { Check } from "lucide-react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 import { cn } from "../../utils/cn";
@@ -44,7 +44,9 @@ function Checkbox({
 						checkboxClasses,
 					)}
 				>
-					{isChecked && <Check size={16} strokeWidth={3} color="#fff" />}
+					{isChecked && (
+						<MaterialIcons name="check" size={16} color="#fff" />
+					)}
 				</View>
 				{label && <Text className={cn(labelClasses)}>{label}</Text>}
 			</Pressable>
