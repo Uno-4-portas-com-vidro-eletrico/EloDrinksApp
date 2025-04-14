@@ -2,38 +2,6 @@ import { ErrorBoundaryComponent } from "@/modules/shared/components/commons/erro
 import { type ErrorBoundaryProps, Tabs } from "expo-router";
 import React from "react";
 import { Host } from "react-native-portalize";
-import type { SvgProps } from "react-native-svg";
-
-interface ButtonTabProps {
-    icon: React.FC<SvgProps>;
-    iconActive: React.FC<SvgProps>;
-    focused: boolean;
-    disabled?: boolean;
-}
-
-const IconTab: React.FC<ButtonTabProps> = ({
-    icon,
-    iconActive,
-    focused,
-    disabled,
-}) =>
-    !focused
-        ? React.createElement(
-            icon as unknown as React.ComponentType<{
-                width: number;
-                height: number;
-                style?: object;
-            }>,
-            { width: 24, height: 24, style: disabled ? { opacity: 0.5 } : {} },
-        )
-        : React.createElement(
-            iconActive as unknown as React.ComponentType<{
-                width: number;
-                height: number;
-                style?: object;
-            }>,
-            { width: 24, height: 24, style: disabled ? { opacity: 0.5 } : {} },
-        );
 
 export function ErrorBoundary(props: ErrorBoundaryProps) {
     return <ErrorBoundaryComponent {...props} />;
