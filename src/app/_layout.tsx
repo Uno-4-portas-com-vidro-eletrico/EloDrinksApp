@@ -1,5 +1,8 @@
-import { Stack } from "expo-router";
+import { Inter_700Bold, useFonts } from '@expo-google-fonts/inter';
+import { SplashScreen, Stack } from "expo-router";
+import { useCallback } from 'react';
 import { StatusBar } from "react-native";
+
 
 const MyStatusBar = () => (
     <StatusBar
@@ -12,6 +15,18 @@ const MyStatusBar = () => (
 );
 
 export default function Layout() {
+    const [fontsLoaded] = useFonts({
+        Inter_700Bold,
+    });
+
+    const onLayoutRootView = useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+
+    if (!fontsLoaded) return null;
+
     return (
         <>
             <MyStatusBar />

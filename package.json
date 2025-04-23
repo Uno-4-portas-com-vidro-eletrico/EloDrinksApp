@@ -10,11 +10,13 @@
     "build": "eas build"
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.3.0",
     "@expo/vector-icons": "^14.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "expo": "~52.0.37",
     "expo-dev-client": "~5.0.12",
+    "expo-font": "~13.0.4",
     "expo-router": "^4.0.20",
     "expo-status-bar": "~2.0.1",
     "lodash": "^4.17.21",

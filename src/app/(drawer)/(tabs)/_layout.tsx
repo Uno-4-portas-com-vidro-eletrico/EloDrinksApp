@@ -22,8 +22,8 @@ export default function Layout() {
                         headerShown: true,
                         headerTitleAlign: "center",
                         headerTitleStyle: {
-                            fontFamily: "Poppins_400Regular",
-                            fontSize: 16,
+                            fontFamily: "Inter_700Bold",
+                            fontSize: 20,
                             color: 'white'
                         },
                         headerStyle: {
