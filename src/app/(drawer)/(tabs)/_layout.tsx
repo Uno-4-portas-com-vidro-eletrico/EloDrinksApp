@@ -6,6 +6,7 @@ import { Host } from "react-native-portalize";
 import { Image } from "react-native";
 import { DrawerToggleButton } from "@react-navigation/drawer";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export function ErrorBoundary(props: ErrorBoundaryProps) {
     return <ErrorBoundaryComponent {...props} />;
@@ -25,7 +26,7 @@ export default function Layout() {
                             fontSize: 16,
                         },
                         headerStyle: {
-                            backgroundColor: "#000",
+                            backgroundColor: "#101820",
                         },
                         tabBarActiveTintColor: "#872A80",
                         tabBarLabelStyle: {
@@ -44,8 +45,15 @@ export default function Layout() {
                             elevation: 5,
                             height: 72,
                             paddingVertical: 8,
-                            backgroundColor: "#fff",
+                            backgroundColor: "#101820",
                         },
+                        headerTitle: () => (
+                            <Image
+                                source={require("@/assets/images/logo.png")}
+                                resizeMode="contain"
+                                style={{ marginRight: 16, width: 192, height: 48 }}
+                            />
+                        ),
                         headerLeft: () => <DrawerToggleButton tintColor="white" />,
                         headerRight: () => <IconHeaderDefault />,
                     }}
@@ -53,23 +61,44 @@ export default function Layout() {
                     backBehavior="history"
                 >
                     <Tabs.Screen
+                        name="history/index"
+                        options={{
+                            title: "Histórico",
+                            tabBarIcon: ({ focused }: { focused: boolean }) => (
+                                <FontAwesome5
+                                    name="history"
+                                    size={20}
+                                    color={focused ? "#872A80" : "#fff"}
+                                />
+                            ),
+                            headerRight: () => null
+                        }}
+                    />
+                    <Tabs.Screen
                         name="home/index"
                         options={{
                             title: "Home",
-                            headerTitle: () => (
-                                <Image
-                                    source={require("@/assets/images/logo.png")}
-                                    resizeMode="contain"
-                                    style={{ marginRight: 16, width: 192, height: 48 }}
-                                />
-                            ),
                             tabBarIcon: ({ focused }: { focused: boolean }) => (
                                 <FontAwesome5
                                     name="home"
                                     size={20}
-                                    color={focused ? "#872A80" : "#000"}
+                                    color={focused ? "#872A80" : "#fff"}
                                 />
                             ),
+                        }}
+                    />
+                    <Tabs.Screen
+                        name="profile/index"
+                        options={{
+                            title: "Perfil",
+                            tabBarIcon: ({ focused }: { focused: boolean }) => (
+                                <Ionicons
+                                    name="person"
+                                    size={20}
+                                    color={focused ? "#872A80" : "#fff"}
+                                />
+                            ),
+                            headerRight: () => null
                         }}
                     />
                 </Tabs>

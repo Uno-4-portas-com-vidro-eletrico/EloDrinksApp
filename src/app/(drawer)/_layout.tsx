@@ -45,7 +45,7 @@ const CustomDrawerContent = ({ ...props }) => {
                                 { fontWeight: "400", color: "#000", marginLeft: -20 },
                             ]}
                             style={{
-                                backgroundColor: pathname === item.path ? "#AC4EA320" : "#101820",
+                                backgroundColor: pathname === item.path ? "#AC4EA320" : "#white",
                                 borderWidth: 1,
                                 borderRadius: 8,
                                 borderColor: pathname === item.path ? "#AC4EA390" : "#101820",
@@ -74,7 +74,7 @@ const CustomDrawerContent = ({ ...props }) => {
                                 { fontWeight: "400", color: "#000", marginLeft: 0 },
                             ]}
                             style={{
-                                backgroundColor: pathname === item.path ? "#AC4EA320" : "#101820",
+                                backgroundColor: pathname === item.path ? "#AC4EA320" : "white",
                                 borderWidth: 1,
                                 borderRadius: 8,
                                 borderColor: pathname === item.path ? "#AC4EA390" : "#101820",

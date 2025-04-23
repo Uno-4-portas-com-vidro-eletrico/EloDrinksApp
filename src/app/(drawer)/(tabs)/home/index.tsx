@@ -16,7 +16,7 @@ export default function Home() {
 	return (
 		<View>
 			<Text>
-				oi
+				home
 			</Text>
 		</View>
 		// <React.Suspense fallback={<LoadingIndicator />}>
