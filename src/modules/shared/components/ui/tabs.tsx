@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { Pressable, View } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons"; // Importing MaterialIcons from expo-vector-icons
+import { MaterialIcons } from "@expo/vector-icons";
 import type React from "react";
 import { cn } from "../../utils/cn";
 import { Text } from "./text";
@@ -9,6 +9,7 @@ interface TabsContextProps {
 	activeTab: string;
 	setActiveTab: (id: string) => void;
 }
+
 const TabsContext = createContext<TabsContextProps>({
 	activeTab: "",
 	setActiveTab: () => { },
@@ -20,7 +21,6 @@ interface TabsProps {
 }
 function Tabs({ defaultValue, children }: TabsProps) {
 	const [activeTab, setActiveTab] = useState(defaultValue);
-
 	return (
 		<TabsContext.Provider value={{ activeTab, setActiveTab }}>
 			{children}
@@ -34,10 +34,7 @@ function TabsList({
 }: React.ComponentPropsWithoutRef<typeof View>) {
 	return (
 		<View
-			className={cn(
-				"flex-1 w-full flex-row justify-between space-x-2",
-				className,
-			)}
+			className={cn("flex-row w-full justify-between bg-transparent", className)}
 			{...props}
 		/>
 	);
@@ -47,7 +44,7 @@ interface TabsTriggerProps
 	extends React.ComponentPropsWithoutRef<typeof Pressable> {
 	value: string;
 	title: string | React.ReactNode;
-	icon?: React.ComponentProps<typeof MaterialIcons>["name"]; // Adjusted for MaterialIcons
+	icon?: React.ComponentProps<typeof MaterialIcons>["name"];
 	textClasses?: string;
 }
 function TabsTrigger({
@@ -59,42 +56,42 @@ function TabsTrigger({
 	...props
 }: TabsTriggerProps) {
 	const { activeTab, setActiveTab } = useContext(TabsContext);
+	const isActive = activeTab === value;
 
 	return (
 		<Pressable
-			className={cn(
-				"flex-1 px-8 py-3 rounded-lg bg-muted items-center border",
-				{
-					"bg-foreground border-purple-500 bg-purple-50": activeTab === value,
-					"border-zinc-300 bg-white": activeTab !== value,
-					className,
-				},
-			)}
 			onPress={() => setActiveTab(value)}
+			className={cn(
+				"flex-1 py-3 mx-1 items-center rounded-t-xl border-b-[3px]",
+				isActive
+					? "border-[#FF7A00] bg-[#FFF5F0]"
+					: "border-transparent bg-white",
+				className
+			)}
 			{...props}
 		>
-			{typeof title === "string" ? (
-				<View className="text-inherit flex-row space-x-2 items-center">
-					{icon && (
-						<MaterialIcons
-							name={icon}
-							size={24}
-							color={activeTab === value ? "#7C3AED" : "#A1A1AA"} // Adjusted colors
-						/>
-					)}
+			<View className="flex-row items-center space-x-2">
+				{icon && (
+					<MaterialIcons
+						name={icon}
+						size={20}
+						color={isActive ? "#FF7A00" : "#A1A1AA"}
+					/>
+				)}
+				{typeof title === "string" ? (
 					<Text
 						className={cn(
-							"text-center flex-row items-center space-x-2",
-							{ "text-purple-500 ": activeTab === value },
-							textClasses,
+							"text-sm font-medium",
+							isActive ? "text-[#FF7A00]" : "text-gray-500",
+							textClasses
 						)}
 					>
 						{title}
 					</Text>
-				</View>
-			) : (
-				title
-			)}
+				) : (
+					title
+				)}
+			</View>
 		</Pressable>
 	);
 }
@@ -104,11 +101,8 @@ interface TabsContentProps extends React.ComponentPropsWithoutRef<typeof View> {
 }
 function TabsContent({ value, className, ...props }: TabsContentProps) {
 	const { activeTab } = useContext(TabsContext);
-
-	if (value === activeTab)
-		return <View className={cn("mt-1", className)} {...props} />;
-
-	return null;
+	if (value !== activeTab) return null;
+	return <View className={cn("mt-4", className)} {...props} />;
 }
 
 export { Tabs, TabsList, TabsTrigger, TabsContent };

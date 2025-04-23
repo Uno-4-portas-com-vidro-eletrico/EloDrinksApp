@@ -24,6 +24,7 @@ export default function Layout() {
                         headerTitleStyle: {
                             fontFamily: "Poppins_400Regular",
                             fontSize: 16,
+                            color: 'white'
                         },
                         headerStyle: {
                             backgroundColor: "#101820",
@@ -47,18 +48,10 @@ export default function Layout() {
                             paddingVertical: 8,
                             backgroundColor: "#101820",
                         },
-                        headerTitle: () => (
-                            <Image
-                                source={require("@/assets/images/logo.png")}
-                                resizeMode="contain"
-                                style={{ marginRight: 16, width: 192, height: 48 }}
-                            />
-                        ),
                         headerLeft: () => <DrawerToggleButton tintColor="white" />,
                         headerRight: () => <IconHeaderDefault />,
                     }}
                     initialRouteName="home/index"
-                    backBehavior="history"
                 >
                     <Tabs.Screen
                         name="history/index"
@@ -71,13 +64,21 @@ export default function Layout() {
                                     color={focused ? "#872A80" : "#fff"}
                                 />
                             ),
-                            headerRight: () => null
+
+                            headerRight: () => null,
                         }}
                     />
                     <Tabs.Screen
                         name="home/index"
                         options={{
                             title: "Home",
+                            headerTitle: () => (
+                                <Image
+                                    source={require("@/assets/images/logo.png")}
+                                    resizeMode="contain"
+                                    style={{ marginRight: 16, width: 192, height: 48 }}
+                                />
+                            ),
                             tabBarIcon: ({ focused }: { focused: boolean }) => (
                                 <FontAwesome5
                                     name="home"

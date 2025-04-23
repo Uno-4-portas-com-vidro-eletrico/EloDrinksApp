@@ -1,13 +1,14 @@
+import { LoadingIndicator } from "@/modules/shared/components/commons/loading";
 import React from "react";
-import { View, Text } from "react-native";
+
+const PageNutrition = React.lazy(
+	() => import("@/modules/history/pages/history"),
+);
 
 export default function History() {
-
 	return (
-		<View>
-			<Text>
-				histórico
-			</Text>
-		</View>
+		<React.Suspense fallback={<LoadingIndicator />}>
+			<PageNutrition />
+		</React.Suspense>
 	);
 }
