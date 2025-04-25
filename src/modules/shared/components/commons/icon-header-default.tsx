@@ -1,7 +1,6 @@
 import { router } from "expo-router";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Image } from "react-native";
 import { routersStrings } from "../../utils/routers";
-import Feather from '@expo/vector-icons/Feather';
 
 export const IconHeaderDefault: React.FC = () => {
     return (
@@ -10,7 +9,11 @@ export const IconHeaderDefault: React.FC = () => {
             style={{ marginRight: 16 }}
             onPress={() => router.push(routersStrings.home)}
         >
-            <Feather name="check" size={48} color="black" />
+            <Image
+                source={require("@/assets/images/logo-mini.png")}
+                resizeMode="contain"
+                style={{ width: 20, height: 40 }}
+            />
         </TouchableOpacity>
     );
 };

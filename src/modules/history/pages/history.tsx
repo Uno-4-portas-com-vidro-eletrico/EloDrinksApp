@@ -37,8 +37,8 @@ const renderItem = ({ item }: { item: EventItem }) => (
 
 const PageHistory = () => {
     return (
-        <View className="bg-[#101820] h-screen">
-            <View className="bg-white mx-6 my-6 rounded-3xl py-2 px-4 h-4/5">
+        <View className="bg-[#E0CEAA] h-screen">
+            <View className="bg-[#F7F6F3] mx-6 my-6 rounded-3xl py-2 px-4 h-4/5">
                 <Tabs defaultValue="soon">
                     <TabsList>
                         <TabsTrigger

@@ -24,12 +24,13 @@ export default function Layout() {
                         headerTitleStyle: {
                             fontFamily: "Inter_700Bold",
                             fontSize: 20,
-                            color: 'white'
+                            color: '#F7F6F3'
                         },
                         headerStyle: {
-                            backgroundColor: "#101820",
+                            backgroundColor: "#9D4815"
                         },
-                        tabBarActiveTintColor: "#872A80",
+                        tabBarActiveTintColor: "#101820",
+                        tabBarInactiveTintColor: "#F7F6F3",
                         tabBarLabelStyle: {
                             fontFamily: "Poppins_400Regular",
                             fontSize: 11,
@@ -46,9 +47,9 @@ export default function Layout() {
                             elevation: 5,
                             height: 72,
                             paddingVertical: 8,
-                            backgroundColor: "#101820",
+                            backgroundColor: "#9D4815",
                         },
-                        headerLeft: () => <DrawerToggleButton tintColor="white" />,
+                        headerLeft: () => <DrawerToggleButton tintColor="#F7F6F3" />,
                         headerRight: () => <IconHeaderDefault />,
                     }}
                     initialRouteName="home/index"
@@ -61,11 +62,9 @@ export default function Layout() {
                                 <FontAwesome5
                                     name="history"
                                     size={20}
-                                    color={focused ? "#872A80" : "#fff"}
+                                    color={focused ? "#101820" : "#fff"}
                                 />
                             ),
-
-                            headerRight: () => null,
                         }}
                     />
                     <Tabs.Screen
@@ -83,9 +82,10 @@ export default function Layout() {
                                 <FontAwesome5
                                     name="home"
                                     size={20}
-                                    color={focused ? "#872A80" : "#fff"}
+                                    color={focused ? "#000" : "#fff"}
                                 />
                             ),
+                            headerRight: () => null,
                         }}
                     />
                     <Tabs.Screen
@@ -96,7 +96,7 @@ export default function Layout() {
                                 <Ionicons
                                     name="person"
                                     size={20}
-                                    color={focused ? "#872A80" : "#fff"}
+                                    color={focused ? "#000" : "#fff"}
                                 />
                             ),
                             headerRight: () => null
