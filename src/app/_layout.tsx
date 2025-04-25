@@ -40,7 +40,7 @@ export default function Layout() {
                     },
                     gestureEnabled: false,
                     contentStyle: {
-                        backgroundColor: "#101820",
+                        backgroundColor: "#E0CEAA",
                     },
                 }}
             >
