@@ -107,6 +107,7 @@ export default function HomeInital() {
                             <Button
                                 variant={"secondary"}
                                 label="Criar Nova Conta"
+                                onPress={() => router.push(routersStrings.signup)}
                                 block={"full"}
                             />
                         </View>

@@ -54,7 +54,7 @@ export const FormSignIn: React.FC = () => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <Input
                                 keyboardType="email-address"
-                                // leftIcon="Mail"
+                                leftIcon="mail"
                                 placeholder="E-mail"
                                 onChangeText={(text) => onChange(text)}
                                 onBlur={onBlur}
@@ -70,7 +70,7 @@ export const FormSignIn: React.FC = () => {
                         control={form.control}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <Input
-                                // leftIcon="LockKeyhole"
+                                leftIcon="lock-closed"
                                 placeholder="Senha"
                                 secureTextEntry={!showPassword}
                                 onChangeText={(text) => onChange(text)}
@@ -86,12 +86,7 @@ export const FormSignIn: React.FC = () => {
 
                 <View className="items-end justify-center">
                     <Link
-                        href="#"
-                    // onPress={() =>
-                    // 	openLinkInBrowser(
-                    // 		"https://comunidade.mulheremforma.com/wp-login.php?action=lostpassword",
-                    // 	)
-                    // }
+                        href={routersStrings.home}
                     >
                         <Text className="text-blue-700">Esqueci minha senha</Text>
                     </Link>
@@ -109,13 +104,7 @@ export const FormSignIn: React.FC = () => {
                 <View className="flex items-center">
                     <Text>Ainda não tem uma conta?</Text>
                     <Link
-                        href={"#"}
-                    // onPress={() =>
-                    // 	openLinkInBrowser(
-                    // 		"https://click.mulheremforma.com/sf/?sfunnel=487",
-                    // 	)
-                    // }
-                    >
+                        href={"#"}>
                         <Text className="text-blue-700">Crie sua conta</Text>
                     </Link>
                 </View>

@@ -11,8 +11,8 @@ export const HeaderWithBack: React.FC = () => {
                 className="flex flex-row item-center justify-center"
                 onPress={() => router.back()}
             >
-                <Feather name="chevron-left" size={28} color="white" />
-                <Text className=" text-white text-lg">Voltar</Text>
+                <Feather name="chevron-left" size={28} color="#101820" />
+                <Text className=" text-[#101820] text-lg">Voltar</Text>
             </Pressable>
             <Image source={require("@/assets/images/logo-mini.png")} />
         </View>
