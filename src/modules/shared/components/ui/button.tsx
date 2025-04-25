@@ -8,8 +8,8 @@ const buttonVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: "bg-primary bg-purple-500",
-				secondary: "bg-secondary bg-purple-800",
+				default: "bg-primary bg-[#9D4815]",
+				secondary: "bg-secondary bg-[#cf6627]",
 				outline: "border border-primary bg-transparent border-purple-500",
 				outline_grayscale:
 					"border border-primary bg-transparent border-zinc-300",

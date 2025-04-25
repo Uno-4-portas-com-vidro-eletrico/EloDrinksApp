@@ -1,13 +1,127 @@
 import { Button } from "@/modules/shared/components/ui/button";
+import { Heading } from "@/modules/shared/components/ui/heading";
+import { cn } from "@/modules/shared/utils/cn";
 import { routersStrings } from "@/modules/shared/utils/routers";
 import { router } from "expo-router";
-import { View, Text } from "react-native";
+import React from "react";
+import {
+    Dimensions,
+    Image,
+    ScrollView,
+    View,
+    type ViewStyle,
+    Text
+} from "react-native";
 
-export default function Index() {
+export default function HomeInital() {
+    const scrollViewRef = React.useRef<ScrollView>(null);
+    const { width, height } = Dimensions.get("window");
+    const [active, setActive] = React.useState(0);
+
+    const carouselItems = [
+        {
+            url: "initial_slider_1.jpg",
+            title: "Facilidade e Conforto",
+            description:
+                "O orçamento da sua festa na palma da sua mão",
+        },
+        // {
+        //     url: "initial_slider_2.jpg",
+        //     title: "Motivação e Carinho",
+        //     description: "Treinos que te motivam e te fazem sorrir",
+        // },
+        // {
+        //     url: "initial_slider_3.jpg",
+        //     title: "Liberdade e Comunidade",
+        //     description:
+        //         "Femininas como você, nós te entendemos e pensamos em cada detalhe da sua jornada fitness",
+        // },
+    ];
+
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            setActive((prevIndex) => {
+                const nextIndex = (prevIndex + 1) % carouselItems.length;
+                scrollViewRef?.current?.scrollTo({
+                    x: nextIndex * width,
+                    animated: true,
+                });
+                return nextIndex;
+            });
+        }, 4000);
+        return () => clearInterval(interval);
+    }, [carouselItems.length, width]);
+
     return (
-        <View className="flex-1 items-center justify-center">
-            <Text className="text-2xl font-bold text-blue-500">Hello, Expo Router + Tailwind!</Text>
-            <Button label="btn" onPress={() => router.push(routersStrings.home)} />
-        </View>
+        <>
+            <View className="relative w-screen h-screen">
+                <View className="absolute z-0 top-0 left-0 h-screen w-screen">
+                    <ScrollView
+                        ref={scrollViewRef}
+                        className="bg-[#E0CEAA]"
+                        pagingEnabled
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        style={{ width, height } as ViewStyle}
+                    >
+                        {/* <Image
+                            source={require("@/assets/images/initial_slider_1.jpg")}
+                            style={{ resizeMode: "cover" }}
+                            className="w-screen h-screen"
+                        />
+                        <Image
+                            source={require("@/assets/images/initial_slider_2.jpg")}
+                            style={{ resizeMode: "cover" }}
+                            className="w-screen h-screen"
+                        />
+                        <Image
+                            source={require("@/assets/images/initial_slider_3.jpg")}
+                            style={{ resizeMode: "cover" }}
+                            className="w-screen h-screen"
+                        /> */}
+                    </ScrollView>
+                </View>
+                <View className="absolute z-0 w-full h-screen top-0 left-0 bg-black opacity-0" />
+                <View className="absolute z-20 bg-transparent top-0 left-0 w-full h-full flex flex-col items-center justify-center box-border pb-4">
+                    <View className="w-5/6 flex items-center justify-center px-10 py-4 rounded-2xl bg-white gap-4">
+                        <View className="items-center gap-1">
+                            <Image source={require("@/assets/images/logo-mini-black.png")} className="w-5 h-12" />
+                            <Heading size="lg" className="text-[#101820] w-[220px] text-center">
+                                {carouselItems[active]?.title}
+                            </Heading>
+                            <Heading size="sm" className="text-[#101820] w-[220px] text-center">
+                                {carouselItems[active]?.description}
+                            </Heading>
+                            {/* <Text className="text-[#101820] mt-2 text-center">
+                            </Text> */}
+                        </View>
+                        <View className="flex flex-row self-center space-x-2 py-4">
+                            {carouselItems.map((i, k) => (
+                                <View
+                                    key={i.description}
+                                    className={cn(
+                                        "h-1 flex items-center justify-center rounded-xl",
+                                        k === active ? "bg-[#101820] w-12" : "bg-zinc-500 w-4",
+                                    )}
+                                />
+                            ))}
+                        </View>
+                        <View className="box-border w-full space-y-4 pb-4">
+                            <Button
+                                variant={"default"}
+                                label="Entrar"
+                                onPress={() => router.push(routersStrings.home)}
+                                block={"full"}
+                            />
+                            <Button
+                                variant={"secondary"}
+                                label="Criar Nova Conta"
+                                block={"full"}
+                            />
+                        </View>
+                    </View>
+                </View>
+            </View>
+        </>
     );
 }

@@ -1,7 +1,6 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/modules/shared/components/ui/tabs";
 import React from "react";
-import { View, Text, FlatList, Image, TextInput, Switch } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { View, FlatList, TextInput, Switch } from "react-native";
 
 type EventItem = {
     id: string;
