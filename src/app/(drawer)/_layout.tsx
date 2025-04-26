@@ -26,7 +26,7 @@ const CustomDrawerContent = ({ ...props }) => {
             label: "Sair",
             icon: <MaterialIcons name="logout" size={16} color={pathname === "/signout" ? "#AC4EA3" : "#000"} />,
             path: "/signout",
-            router: "/auth/sign-out",
+            router: "/",
             show: true,
         },
     ];
@@ -110,8 +110,8 @@ export default function Layout() {
                     },
                 }}
             >
-                <Drawer.Screen name="notification" options={{ title: "Notificacao" }} />
-                <Drawer.Screen name="settings" options={{ title: "Configurações" }} />
+                {/* <Drawer.Screen name="notification" options={{ title: "Notificacao" }} />
+                <Drawer.Screen name="settings" options={{ title: "Configurações" }} /> */}
             </Drawer>
         </>
     );
