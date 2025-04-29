@@ -1,22 +1,17 @@
 import { LoadingIndicator } from "@/modules/shared/components/commons/loading";
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 
-// const PageHome = React.lazy(
-//     () => import("@/modules/home/pages/home"),
-// );
+const PageNewOrderInitial = React.lazy(
+    () => import("@/modules/new-order/pages/initial"),
+);
 
 export default function Home() {
     return (
-        // <React.Suspense fallback={<LoadingIndicator />}>
-        //     <View className="bg-[#E0CEAA] h-full">
-        //         <PageHome />
-        //     </View>
-        // </React.Suspense>
-        <View>
-            <Text>
-                new order
-            </Text>
-        </View>
+        <React.Suspense fallback={<LoadingIndicator />}>
+            <ScrollView className="bg-[#E0CEAA] h-full">
+                <PageNewOrderInitial />
+            </ScrollView>
+        </React.Suspense>
     );
 }
