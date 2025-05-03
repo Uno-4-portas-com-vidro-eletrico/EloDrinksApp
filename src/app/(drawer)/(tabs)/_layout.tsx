@@ -8,6 +8,7 @@ import { DrawerToggleButton } from "@react-navigation/drawer";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { cn } from "@/modules/shared/utils/cn";
+import { BtnBackHeader } from "@/modules/shared/components/commons/btn-back-button";
 
 export function ErrorBoundary(props: ErrorBoundaryProps) {
     return <ErrorBoundaryComponent {...props} />;
@@ -111,6 +112,7 @@ export default function Layout() {
                                     <FontAwesome5 name="plus" size={24} color="#9D4815" />
                                 </TouchableOpacity>
                             ),
+                            headerLeft: () => <BtnBackHeader confirmBack={true} />,
                         }}
                     />
                     <Tabs.Screen
@@ -136,8 +138,15 @@ export default function Layout() {
                                     size={20}
                                     color={focused ? "#000" : "#fff"}
                                 />
-                            ),
-                            headerRight: () => null
+                            )
+                        }}
+                    />
+                    <Tabs.Screen
+                        name="new-order/second/index"
+                        options={{
+                            title: "Novo pedido",
+                            headerLeft: () => <BtnBackHeader confirmBack={true} />,
+                            href: null,
                         }}
                     />
                 </Tabs>

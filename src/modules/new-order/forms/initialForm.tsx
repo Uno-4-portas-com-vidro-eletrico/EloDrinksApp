@@ -1,7 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
+import { router, useFocusEffect } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { z } from "zod";
+import { useOrderStore } from "../store/useOrderStore";
+import { routersStrings } from "@/modules/shared/utils/routers";
 
 const eventSchema = z.object({
     eventName: z.string().min(1, "Nome do evento é obrigatório"),
@@ -24,7 +27,7 @@ const EventForm = () => {
 
     const handleChange = (field: string, value: string) => {
         setFormData((prev) => ({ ...prev, [field]: value }));
-        setErrors((prev) => ({ ...prev, [field]: "" })); // Limpa o erro ao alterar o campo
+        setErrors((prev) => ({ ...prev, [field]: "" }));
     };
 
     const handleSubmit = () => {
@@ -39,8 +42,24 @@ const EventForm = () => {
             setErrors(newErrors);
             return;
         }
+        router.push(routersStrings.newOrder2)
         console.log("Formulário enviado com sucesso", result.data);
     };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            return () => {
+                setFormData({
+                    eventName: "",
+                    date: "",
+                    location: "",
+                    guestCount: "",
+                    eventType: "",
+                });
+                setErrors({});
+            };
+        }, [])
+    );
 
     return (
         <View>

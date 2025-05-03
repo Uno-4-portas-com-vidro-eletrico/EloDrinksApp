@@ -3,4 +3,6 @@ export const routersStrings = {
     signup: "/auth/sign-up",
     home: "/(tabs)/home",
     history: "/(drawer)/(tabs)/history",
+
+    newOrder2: "/(drawer)/(tabs)/new-order/second",
 };
