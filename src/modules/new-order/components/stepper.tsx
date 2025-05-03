@@ -10,7 +10,6 @@ export function Stepper({ currentStep = 1, totalSteps = 3 }) {
 
         return (
           <View key={i} className="flex-row items-center mt-1 mb-4">
-            {/* Circulozinho com número */}
             <View
               className={cn(
                 "w-9 h-9 rounded-full items-center justify-center border",
@@ -29,7 +28,6 @@ export function Stepper({ currentStep = 1, totalSteps = 3 }) {
               </Text>
             </View>
 
-            {/* Linha entre os steps, exceto o último */}
             {step !== totalSteps && (
               <View className="w-12 h-1 bg-zinc-400 mx-1" />
             )}

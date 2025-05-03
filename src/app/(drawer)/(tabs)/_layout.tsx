@@ -149,6 +149,22 @@ export default function Layout() {
                             href: null,
                         }}
                     />
+                    <Tabs.Screen
+                        name="new-order/second/packages/index"
+                        options={{
+                            title: "Pacotes",
+                            headerLeft: () => <BtnBackHeader confirmBack={true} />,
+                            href: null,
+                        }}
+                    />
+                    <Tabs.Screen
+                        name="new-order/second/full-order/index"
+                        options={{
+                            title: "Orçamento",
+                            headerLeft: () => <BtnBackHeader confirmBack={true} />,
+                            href: null,
+                        }}
+                    />
                 </Tabs>
             </Host>
         </>

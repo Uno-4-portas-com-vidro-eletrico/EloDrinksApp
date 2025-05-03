@@ -3,7 +3,6 @@ import { router, useFocusEffect } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { z } from "zod";
-import { useOrderStore } from "../store/useOrderStore";
 import { routersStrings } from "@/modules/shared/utils/routers";
 
 const eventSchema = z.object({
