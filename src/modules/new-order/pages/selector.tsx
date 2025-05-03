@@ -17,20 +17,36 @@ const PageSelector = () => {
                 </Text>
             </View>
             <View className="mt-6 mb-16 space-y-10">
-                <Button
-                    className="h-20"
-                    size={"lg"}
-                    label="Escolher Pacotes"
-                    onPress={() => { router.push(routersStrings.newOrder2_packages) }}
-                />
-                <Button
-                    className="h-20"
-                    size={"lg"}
-                    label="Montar Orçamento Completo"
-                    onPress={() => { router.push(routersStrings.newOrder2_fullorder) }}
-                />
+                <View className="flex flex-col items-center space-y-2">
+                    <Button
+                        className="h-16 w-full"
+                        size={"lg"}
+                        label="Escolher Pacotes"
+                        onPress={() => { router.push(routersStrings.newOrder2_packages) }}
+                    />
+                    <Text
+                        className="text-sm text-gray-500 text-center"
+                        onPress={() => { alert("Escolha esta opção para visualizar pacotes prontos criados pela nossa equipe.") }}
+                    >
+                        Dúvidas? Toque aqui para saber mais.
+                    </Text>
+                </View>
+                <View className="flex flex-col items-center space-y-2">
+                    <Button
+                        className="h-20 w-full"
+                        size={"lg"}
+                        label="Montar Orçamento Completo"
+                        onPress={() => { router.push(routersStrings.newOrder2_fullorder) }}
+                    />
+                    <Text
+                        className="text-sm text-gray-500 text-center"
+                        onPress={() => { alert("Escolha esta opção para montar seu orçamento do zero.") }}
+                    >
+                        Dúvidas? Toque aqui para saber mais.
+                    </Text>
+                </View>
             </View>
-        </View >
+        </View>
     );
 }
 

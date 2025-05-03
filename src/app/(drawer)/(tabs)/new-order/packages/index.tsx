@@ -1,15 +1,17 @@
 import { LoadingIndicator } from "@/modules/shared/components/commons/loading";
 import React from "react";
-import { ScrollView, Text } from "react-native";
+import { View } from "react-native";
+
+const PageNewOrderInitial = React.lazy(
+    () => import("@/modules/packages/pages/initial"),
+);
 
 export default function Home() {
     return (
         <React.Suspense fallback={<LoadingIndicator />}>
-            <ScrollView className="bg-[#E0CEAA] h-full">
-                <Text>
-                    Pacote
-                </Text>
-            </ScrollView>
+            <View className="bg-[#E0CEAA] h-full">
+                <PageNewOrderInitial />
+            </View>
         </React.Suspense>
     );
 }

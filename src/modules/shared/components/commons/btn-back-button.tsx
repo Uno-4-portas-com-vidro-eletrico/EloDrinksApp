@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Alert, Pressable } from "react-native";
 import { router } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
@@ -8,7 +7,7 @@ export const BtnBackHeader = ({ confirmBack }: { confirmBack?: boolean }) => {
         if (confirmBack) {
             Alert.alert(
                 "Confirmar",
-                "Tem certeza que deseja sair?",
+                "Tem certeza que deseja sair?\nVocê perderá o progresso do seu orçamento!",
                 [
                     { text: "Cancelar", style: "cancel" },
                     { text: "Sim", onPress: () => router.back() },
