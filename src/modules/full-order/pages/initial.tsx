@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { Stepper } from "../components/stepper";
+import { Stepper } from "../../shared/components/commons/stepper";
 import EventForm from "../forms/initialForm";
 
 const PageNewOrderInitial = () => {

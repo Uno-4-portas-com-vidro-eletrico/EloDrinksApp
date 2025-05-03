@@ -5,6 +5,6 @@ export const routersStrings = {
     history: "/(drawer)/(tabs)/history",
 
     newOrder2: "/(drawer)/(tabs)/new-order/second",
-    newOrder2_packages: "/(drawer)/(tabs)/new-order/second/packages",
-    newOrder2_fullorder: "/(drawer)/(tabs)/new-order/second/full-order",
+    newOrder2_packages: "/(drawer)/(tabs)/new-order/packages",
+    newOrder2_fullorder: "/(drawer)/(tabs)/new-order/full-order",
 };

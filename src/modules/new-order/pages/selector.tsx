@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { Stepper } from "../components/stepper";
+import { Stepper } from "../../shared/components/commons/stepper";
 import { Button } from "@/modules/shared/components/ui/button";
 import { router } from "expo-router";
 import { routersStrings } from "@/modules/shared/utils/routers";
@@ -7,7 +7,7 @@ import { routersStrings } from "@/modules/shared/utils/routers";
 const PageSelector = () => {
     return (
         <View className="bg-white rounded-3xl px-6 py-2 mx-4 mt-6 shadow-md">
-            <Stepper currentStep={2} totalSteps={3} />
+            <Stepper currentStep={1} totalSteps={3} />
             <View className="flex flex-col items-center justify-between mt-4 mb-2">
                 <Text className="text-lg font-semibold text-gray-800 mb-1 text-center">
                     Selecione como quer montar seu orçamento

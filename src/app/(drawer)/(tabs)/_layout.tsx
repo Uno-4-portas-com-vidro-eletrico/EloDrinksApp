@@ -150,7 +150,7 @@ export default function Layout() {
                         }}
                     />
                     <Tabs.Screen
-                        name="new-order/second/packages/index"
+                        name="new-order/packages/index"
                         options={{
                             title: "Pacotes",
                             headerLeft: () => <BtnBackHeader confirmBack={true} />,
@@ -158,7 +158,7 @@ export default function Layout() {
                         }}
                     />
                     <Tabs.Screen
-                        name="new-order/second/full-order/index"
+                        name="new-order/full-order/index"
                         options={{
                             title: "Orçamento",
                             headerLeft: () => <BtnBackHeader confirmBack={true} />,
