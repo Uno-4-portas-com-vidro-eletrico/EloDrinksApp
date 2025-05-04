@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Modal, TouchableOpacity, Button } from 'react-native';
 import { styled } from 'nativewind';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 interface PackageItemProps {
     pack: any;
+    isSelected: boolean;
+    disabled: boolean;
+    onSelect: (id: string) => void;
 }
 
-export const PackageItem = ({ pack }: PackageItemProps) => {
+export const PackageItem = ({ pack, isSelected, disabled, onSelect }: PackageItemProps) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
@@ -25,12 +28,29 @@ export const PackageItem = ({ pack }: PackageItemProps) => {
             </View>
 
             <Text className="text-base font-bold text-[#101820] mt-2">R$ {pack.price.toFixed(2)}</Text>
-            <TouchableOpacity
-                className="mt-3 px-4 bg-[#9D4815] rounded-xl py-2 packs-center"
-                onPress={() => setModalVisible(true)}
-            >
-                <Text className="text-white font-bold">Ver Detalhes</Text>
-            </TouchableOpacity>
+
+            <View className='flex flex-row space-x-1'>
+                <TouchableOpacity
+                    className="mt-3 px-4 bg-[#9D4815] rounded-xl py-2 packs-center flex-1"
+                    onPress={() => setModalVisible(true)}
+                >
+                    <Text className="text-white font-bold">Ver Detalhes</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    className={`mt-3 px-4 py-2 rounded-xl flex-row justify-center items-center ${isSelected ? 'bg-green-600' : disabled ? 'bg-gray-300' : 'bg-[#5A5040]'
+                        }`}
+                    onPress={() => onSelect(pack.id)}
+                    disabled={disabled}
+                >
+                    {isSelected && (
+                        <FontAwesome name="check" size={14} color="#fff" style={{ marginRight: 6 }} />
+                    )}
+                    <Text className="text-white font-bold">
+                        {isSelected ? 'Escolhido' : 'Escolher'}
+                    </Text>
+                </TouchableOpacity>
+            </View>
 
             <Modal
                 visible={modalVisible}

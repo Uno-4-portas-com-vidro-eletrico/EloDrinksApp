@@ -7,7 +7,7 @@ export const BtnBackHeader = ({ confirmBack }: { confirmBack?: boolean }) => {
         if (confirmBack) {
             Alert.alert(
                 "Confirmar",
-                "Tem certeza que deseja sair?\nVocê perderá o progresso do seu orçamento!",
+                "Tem certeza que deseja sair?\nVocê perderá TODO o progresso do seu orçamento!",
                 [
                     { text: "Cancelar", style: "cancel" },
                     { text: "Sim", onPress: () => router.back() },
