@@ -9,8 +9,7 @@ const eventSchema = z.object({
     eventName: z.string().min(1, "Nome do evento é obrigatório"),
     date: z.string().min(1, "Data é obrigatória"),
     location: z.string().min(1, "Local é obrigatório"),
-    guestCount: z.string().regex(/^\d+$/, "Número de convidados deve ser um número"),
-    eventType: z.string().min(1, "Tipo de evento é obrigatório"),
+    details: z.string()
 });
 
 const EventForm = () => {
@@ -18,8 +17,7 @@ const EventForm = () => {
         eventName: "",
         date: "",
         location: "",
-        guestCount: "",
-        eventType: "",
+        details: "",
     });
 
     const [errors, setErrors] = useState<Record<string, string>>({});
@@ -41,7 +39,7 @@ const EventForm = () => {
             setErrors(newErrors);
             return;
         }
-        router.push(routersStrings.newOrder2)
+        router.push(routersStrings.newOrder_fullorder);
         console.log("Formulário enviado com sucesso", result.data);
     };
 
@@ -52,8 +50,7 @@ const EventForm = () => {
                     eventName: "",
                     date: "",
                     location: "",
-                    guestCount: "",
-                    eventType: "",
+                    details: "",
                 });
                 setErrors({});
             };
@@ -72,6 +69,7 @@ const EventForm = () => {
                 />
                 {errors.eventName && <Text className="text-red-500 text-xs mt-1">{errors.eventName}</Text>}
             </View>
+
             <View className="mb-4">
                 <Text className="text-sm font-semibold text-gray-800 mb-1">Data</Text>
                 <TextInput
@@ -91,6 +89,7 @@ const EventForm = () => {
                 />
                 {errors.date && <Text className="text-red-500 text-xs mt-1">{errors.date}</Text>}
             </View>
+
             <View className="mb-4">
                 <Text className="text-sm font-semibold text-gray-800 mb-1">Local</Text>
                 <TextInput
@@ -101,30 +100,26 @@ const EventForm = () => {
                 />
                 {errors.location && <Text className="text-red-500 text-xs mt-1">{errors.location}</Text>}
             </View>
+
             <View className="mb-4">
-                <Text className="text-sm font-semibold text-gray-800 mb-1">Número de convidados</Text>
+                <Text className="text-sm font-semibold text-gray-800 mb-1">Detalhes do evento (opcional)</Text>
                 <TextInput
-                    className="border border-gray-300 rounded-md px-3 py-2 bg-white"
-                    value={formData.guestCount}
-                    onChangeText={(value) => {
-                        const numericValue = value.replace(/[^0-9]/g, "");
-                        const limitedValue = parseInt(numericValue, 10) > 999999 ? "999999" : numericValue;
-                        handleChange("guestCount", limitedValue);
-                    }}
-                    keyboardType="numeric"
+                    className="border border-gray-300 rounded-md px-3 py-2 bg-white h-28 text-start"
+                    value={formData.details}
+                    onChangeText={(value) => handleChange("details", value)}
+                    multiline
+                    numberOfLines={5}
+                    textAlignVertical="top"
                 />
-                {errors.guestCount && <Text className="text-red-500 text-xs mt-1">{errors.guestCount}</Text>}
+                {errors.details && <Text className="text-red-500 text-xs mt-1">{errors.details}</Text>}
             </View>
-            <View className="mb-4">
-                <Text className="text-sm font-semibold text-gray-800 mb-1">Tipo de evento</Text>
-                <TextInput
-                    className="border border-gray-300 rounded-md px-3 py-2 bg-white"
-                    value={formData.eventType}
-                    onChangeText={(value) => handleChange("eventType", value)}
-                    keyboardType="default"
-                />
-                {errors.eventType && <Text className="text-red-500 text-xs mt-1">{errors.eventType}</Text>}
-            </View>
+            <Text
+                className="text-sm text-gray-500 text-center"
+                onPress={() => { alert("No campo detalhes do evento, que você irá falar as alterações que deseja fazer no pacote, que serão analisadas pela nossa equipe.") }}
+            >
+                O que são os detalhes do evento?
+            </Text>
+
             <TouchableOpacity
                 className="mt-4 bg-[#9D4815] py-3 rounded-full flex-row items-center justify-center"
                 onPress={handleSubmit}

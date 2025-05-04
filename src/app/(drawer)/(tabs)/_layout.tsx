@@ -158,6 +158,14 @@ export default function Layout() {
                         }}
                     />
                     <Tabs.Screen
+                        name="new-order/packages/second/index"
+                        options={{
+                            title: "Detalhes do pedido",
+                            headerLeft: () => <BtnBackHeader confirmBack={true} />,
+                            href: null,
+                        }}
+                    />
+                    <Tabs.Screen
                         name="new-order/full-order/index"
                         options={{
                             title: "Orçamento",

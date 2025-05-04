@@ -41,7 +41,7 @@ const EventForm = () => {
             setErrors(newErrors);
             return;
         }
-        router.push(routersStrings.newOrder2)
+        router.push(routersStrings.newOrder_fullorder2)
         console.log("Formulário enviado com sucesso", result.data);
     };
 

@@ -22,7 +22,7 @@ const PageSelector = () => {
                         className="h-16 w-full"
                         size={"lg"}
                         label="Escolher Pacotes"
-                        onPress={() => { router.push(routersStrings.newOrder2_packages) }}
+                        onPress={() => { router.push(routersStrings.newOrder_packages) }}
                     />
                     <Text
                         className="text-sm text-gray-500 text-center"
@@ -36,7 +36,7 @@ const PageSelector = () => {
                         className="h-20 w-full"
                         size={"lg"}
                         label="Montar Orçamento Completo"
-                        onPress={() => { router.push(routersStrings.newOrder2_fullorder) }}
+                        onPress={() => { router.push(routersStrings.newOrder_fullorder) }}
                     />
                     <Text
                         className="text-sm text-gray-500 text-center"
