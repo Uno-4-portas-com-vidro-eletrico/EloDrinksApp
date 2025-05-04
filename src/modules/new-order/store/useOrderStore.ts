@@ -1,26 +1,22 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 
-interface useOrderStore {
-    eventDetails: {
-        eventName: string;
-        date: string;
-        location: string;
-        guestCount: string;
-        eventType: string;
-    };
-    setEventDetails: (eventDetails: {
-        eventName: string;
-        date: string;
-        location: string;
-        guestCount: string;
-        eventType: string;
-    }) => void;
+interface EventDetails {
+    eventName: string;
+    date: string;
+    location: string;
+    guestCount: string;
+    eventType: string;
+}
+
+interface OrderStore {
+    eventDetails: EventDetails;
+    setEventDetails: (details: EventDetails) => void;
 }
 
 export const useOrderStore = create(
-    persist<useOrderStore>(
+    persist<OrderStore>(
         (set) => ({
             eventDetails: {
                 eventName: "",
@@ -29,11 +25,11 @@ export const useOrderStore = create(
                 guestCount: "",
                 eventType: "",
             },
-            setEventDetails: (eventDetails) => set({ eventDetails }),
+            setEventDetails: (details) => set({ eventDetails: details }),
         }),
         {
             name: "orderstore",
             storage: createJSONStorage(() => AsyncStorage),
-        },
-    ),
+        }
+    )
 );
