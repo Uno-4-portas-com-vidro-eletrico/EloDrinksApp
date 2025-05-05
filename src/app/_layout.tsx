@@ -2,6 +2,7 @@ import { Inter_700Bold, useFonts } from '@expo-google-fonts/inter';
 import { SplashScreen, Stack } from "expo-router";
 import { useCallback } from 'react';
 import { StatusBar } from "react-native";
+import FlashMessage from 'react-native-flash-message';
 
 
 const MyStatusBar = () => (
@@ -29,6 +30,7 @@ export default function Layout() {
 
     return (
         <>
+            <FlashMessage />
             <MyStatusBar />
             <Stack
                 screenOptions={{

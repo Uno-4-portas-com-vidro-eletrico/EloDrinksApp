@@ -1,9 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Modal } from "react-native";
 import { z } from "zod";
 import { routersStrings } from "@/modules/shared/utils/routers";
+import { usePackStore } from "../store/useOrderStore";
+import useToast from "@/modules/shared/hooks/useToast";
 
 const eventSchema = z.object({
     eventName: z.string().min(1, "Nome do evento é obrigatório"),
@@ -13,6 +15,9 @@ const eventSchema = z.object({
 });
 
 const EventForm = () => {
+    const { pack } = usePackStore();
+    const [modalVisible, setModalVisible] = useState(false);
+
     const [formData, setFormData] = useState({
         eventName: "",
         date: "",
@@ -39,7 +44,7 @@ const EventForm = () => {
             setErrors(newErrors);
             return;
         }
-        router.push(routersStrings.newOrder_fullorder);
+        router.push(routersStrings.newOrder_packages3);
         console.log("Formulário enviado com sucesso", result.data);
     };
 
@@ -119,6 +124,42 @@ const EventForm = () => {
             >
                 O que são os detalhes do evento?
             </Text>
+
+            {pack ? (
+                <>
+                    <Modal
+                        visible={modalVisible}
+                        transparent={true}
+                        animationType="slide"
+                        onRequestClose={() => setModalVisible(false)}
+                    >
+                        <View className="flex-1 justify-center items-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
+                            <View className="bg-white p-6 rounded-2xl w-4/5">
+                                <Text className="text-lg font-bold text-[#101820] mb-4">{pack.name}</Text>
+                                <Text className="text-sm text-zinc-600 mb-2">Tipo: {pack.type}</Text>
+                                <Text className="text-sm text-zinc-600 mb-2">Convidados: {pack.guests}</Text>
+                                <Text className="text-base font-bold text-[#101820] mb-4">R$ {pack.price.toFixed(2)}</Text>
+                                <Text className="text-sm text-zinc-600">{pack.description}</Text>
+
+                                <TouchableOpacity
+                                    className="mt-4 px-4 bg-[#9D4815] rounded-xl py-2"
+                                    onPress={() => setModalVisible(false)}
+                                >
+                                    <Text className="text-white font-bold text-center">Fechar</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
+                    <TouchableOpacity
+                        className="mt-2 bg-[#5A5040] py-1 rounded-full flex-row items-center justify-center"
+                        onPress={() => setModalVisible(true)}
+                    >
+                        <Text className="text-white font-bold">Conferir Pacote Selecionado</Text>
+                    </TouchableOpacity>
+                </>
+            ) : (
+                <Text>Nenhum pacote selecionado.</Text>
+            )}
 
             <TouchableOpacity
                 className="mt-4 bg-[#9D4815] py-3 rounded-full flex-row items-center justify-center"

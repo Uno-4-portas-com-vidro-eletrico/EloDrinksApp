@@ -9,6 +9,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { cn } from "@/modules/shared/utils/cn";
 import { BtnBackHeader } from "@/modules/shared/components/commons/btn-back-button";
+import FlashMessage from "react-native-flash-message";
 
 export function ErrorBoundary(props: ErrorBoundaryProps) {
     return <ErrorBoundaryComponent {...props} />;
@@ -17,6 +18,7 @@ export function ErrorBoundary(props: ErrorBoundaryProps) {
 export default function Layout() {
     return (
         <>
+            <FlashMessage />
             <Host>
                 <Tabs
                     screenOptions={{
@@ -161,6 +163,14 @@ export default function Layout() {
                         name="new-order/packages/second/index"
                         options={{
                             title: "Detalhes do pedido",
+                            headerLeft: () => <BtnBackHeader confirmBack={true} />,
+                            href: null,
+                        }}
+                    />
+                    <Tabs.Screen
+                        name="new-order/packages/resume/index"
+                        options={{
+                            title: "Resumo do pedido",
                             headerLeft: () => <BtnBackHeader confirmBack={true} />,
                             href: null,
                         }}

@@ -7,6 +7,7 @@ import _ from "lodash";
 import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { View } from "react-native";
+import FlashMessage from "react-native-flash-message";
 
 const CustomDrawerContent = ({ ...props }) => {
     const pathname = usePathname();
@@ -98,6 +99,7 @@ export function ErrorBoundary(props: ErrorBoundaryProps) {
 export default function Layout() {
     return (
         <>
+            <FlashMessage />
             <Drawer
                 drawerContent={(props) => <CustomDrawerContent {...props} />}
                 screenOptions={{
