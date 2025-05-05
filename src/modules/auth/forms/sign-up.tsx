@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, FieldValues, FormProvider, SubmitErrorHandler, useForm } from "react-hook-form";
 import useToast from "@/modules/shared/hooks/useToast";
 import { routersStrings } from "@/modules/shared/utils/routers";
+import { useRegister } from "../hooks/useRegister";
 
 const schema = z.object({
     name: z.string({ required_error: "Campo obrigatório" }).min(2, { message: "O nome deve ter no mínimo 2 caracteres" }),
@@ -25,6 +26,7 @@ type schemaType = z.infer<typeof schema>;
 
 export const FormSignUp: React.FC = () => {
     const [showPassword, setShowPassword] = React.useState(false);
+    const { mutateAsync: register, isPending } = useRegister()
     const showToast = useToast();
 
     const form = useForm({
@@ -39,9 +41,11 @@ export const FormSignUp: React.FC = () => {
         },
     });
 
-    const onSubmit = (data: schemaType) => {
-        const { name, email, phone, password } = data;
+    const onSubmit = async (data: schemaType) => {
+        const { name, email, phone, password, confirmPassword } = data;
         console.log("Sign-up data", data);
+        const tokenData = await register({ name, email, telephone: phone, password, confirmPassword });
+        console.log("Sign-up | tokenData:", tokenData);
         router.push(routersStrings.home);
     };
 
@@ -142,6 +146,8 @@ export const FormSignUp: React.FC = () => {
                     <Button
                         label={"Cadastrar"}
                         onPress={() => form.handleSubmit(onSubmit, onError)()}
+                        disabled={isPending}
+                        loading={isPending}
                         loadingText="Aguarde..."
                     />
                 </View>

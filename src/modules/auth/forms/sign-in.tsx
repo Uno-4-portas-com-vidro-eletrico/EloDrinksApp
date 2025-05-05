@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, FieldValues, FormProvider, SubmitErrorHandler, useForm } from "react-hook-form";
 import useToast from "@/modules/shared/hooks/useToast";
 import { routersStrings } from "@/modules/shared/utils/routers";
+import { useLogin } from "../hooks/useLogin";
 
 const schema = z.object({
     email: z.string({ required_error: "Campo obrigatório" }).email({
@@ -22,7 +23,7 @@ type schemaType = z.infer<typeof schema>;
 
 export const FormSignIn: React.FC = () => {
     const [showPassword, setShowPassword] = React.useState(false);
-    // const { mutate: login, isPending } = useLogin();
+    const { mutateAsync: login, isPending } = useLogin();
     const showToast = useToast();
 
     const form = useForm({
@@ -34,11 +35,13 @@ export const FormSignIn: React.FC = () => {
         },
     });
 
-    const onSubmit = (data: schemaType) => {
+    const onSubmit = async (data: schemaType) => {
         const { email, password } = data;
         console.log("Login data", data);
+        const tokenData = await login({ email, password });
+        console.log("sign-in | tokenData:", tokenData);
+
         router.push(routersStrings.home)
-        // login({ email, password });
     };
 
     const onError: SubmitErrorHandler<FieldValues> = (errors, e) => {
@@ -96,8 +99,8 @@ export const FormSignIn: React.FC = () => {
                     <Button
                         label={"Entrar"}
                         onPress={() => form.handleSubmit(onSubmit, onError)()}
-                        // disabled={isPending}
-                        // loading={isPending}
+                        disabled={isPending}
+                        loading={isPending}
                         loadingText="Aguarde..."
                     />
                 </View>

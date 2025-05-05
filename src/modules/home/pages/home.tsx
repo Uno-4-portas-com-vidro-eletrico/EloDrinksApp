@@ -2,8 +2,11 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 import { routersStrings } from "@/modules/shared/utils/routers";
 import { Banners } from "../components/banner";
+import { Button } from "@/modules/shared/components/ui/button";
+import { useTokenStore } from "@/modules/auth/store/useTokenStore";
 
 export default function PageHome() {
+    const resetToken = useTokenStore(state => state.resetToken)
     return (
         <View className="mt-6">
             <Banners items={[
@@ -26,6 +29,7 @@ export default function PageHome() {
                     link: routersStrings.history
                 }
             ]} />
+            <Button label="log out" onPress={() => resetToken()}/>
         </View>
     );
 }
