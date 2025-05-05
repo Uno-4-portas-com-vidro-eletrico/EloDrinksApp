@@ -4,9 +4,6 @@ import { useTokenStore } from "../store/useTokenStore";
 import {API_KEY, BASE_URL, USER_SCOPE} from "@env";
 import useToast from "@/modules/shared/hooks/useToast";
 
-//const API_KEY: string = process.env.API_KEY || ""
-//const BASE_URL: string = process.env.BASE_URL || "http://localhost:8000/"
-//const USER_SCOPE: string = process.env.USER_SCOPE || ""
 
 type UserCredentials = {
     email: string,
