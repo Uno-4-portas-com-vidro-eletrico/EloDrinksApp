@@ -1,5 +1,4 @@
 import { ErrorBoundaryComponent } from "@/modules/shared/components/commons/error-boundary";
-import { Text } from "@/modules/shared/components/ui/text";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { type ErrorBoundaryProps, router, usePathname } from "expo-router";
 import { Drawer } from "expo-router/drawer";
@@ -59,7 +58,6 @@ const CustomDrawerContent = ({ ...props }) => {
                         />
                     ))}
 
-                <Text className="px-4 pt-2 text-zinc-500">Mais</Text>
                 {itemsMenuCompany
                     ?.filter((item) => item.show)
                     ?.map((item, index) => (
