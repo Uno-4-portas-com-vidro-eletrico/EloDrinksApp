@@ -5,6 +5,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { router } from 'expo-router';
 import { routersStrings } from '@/modules/shared/utils/routers';
 import { SearchBar } from './search-bar';
+import { usePackStore } from '../store/useOrderStore';
 
 const packages = [
 	{
@@ -40,6 +41,7 @@ const packages = [
 ];
 
 export default function PackageList() {
+	const { setPack } = usePackStore();
 	const [open, setOpen] = useState(false);
 	const [searchField, setSearchField] = useState('nome');
 	const [items, setItems] = useState([
@@ -52,6 +54,14 @@ export default function PackageList() {
 
 	const handleSelect = (id: string) => {
 		setSelectedPackageId(id === selectedPackageId ? null : id);
+	};
+
+	const handleProceed = (packageId: string) => {
+		const selectedPackage = packages.find((pkg) => pkg.id === packageId);
+		if (selectedPackage) {
+			setPack(selectedPackage);
+			router.push(routersStrings.newOrder_packages2);
+		}
 	};
 
 
@@ -95,7 +105,7 @@ export default function PackageList() {
 				<View className="absolute bottom-4 left-4 right-4">
 					<TouchableOpacity
 						className="bg-[#9D4815] py-4 rounded-xl items-center"
-						onPress={() => { router.push(routersStrings.newOrder_packages2) }}
+						onPress={() => handleProceed(selectedPackageId)}
 					>
 						<Text className="text-white font-bold text-lg">Avançar com pedido</Text>
 					</TouchableOpacity>

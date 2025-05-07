@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SplashScreen, Stack } from "expo-router";
 import { useCallback } from 'react';
 import { StatusBar } from "react-native";
+import FlashMessage from 'react-native-flash-message';
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ export default function Layout() {
 
     return (
         <QueryClientProvider client={queryClient}>
+            <FlashMessage />
             <MyStatusBar />
             <Stack
                 screenOptions={{

@@ -1,5 +1,4 @@
 import { ErrorBoundaryComponent } from "@/modules/shared/components/commons/error-boundary";
-import { Text } from "@/modules/shared/components/ui/text";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { type ErrorBoundaryProps, router, usePathname } from "expo-router";
 import { Drawer } from "expo-router/drawer";
@@ -8,6 +7,8 @@ import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { View } from "react-native";
 import { useTokenStore } from "@/modules/auth/store/useTokenStore";
+import FlashMessage from "react-native-flash-message";
+
 
 const CustomDrawerContent = ({ ...props }) => {
     const pathname = usePathname();
@@ -64,7 +65,6 @@ const CustomDrawerContent = ({ ...props }) => {
                         />
                     ))}
 
-                <Text className="px-4 pt-2 text-zinc-500">Mais</Text>
                 {itemsMenuCompany
                     ?.filter((item) => item.show)
                     ?.map((item, index) => (
@@ -105,6 +105,7 @@ export function ErrorBoundary(props: ErrorBoundaryProps) {
 export default function Layout() {
     return (
         <>
+            <FlashMessage />
             <Drawer
                 drawerContent={(props) => <CustomDrawerContent {...props} />}
                 screenOptions={{
