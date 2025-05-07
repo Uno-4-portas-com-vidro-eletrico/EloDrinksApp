@@ -38,10 +38,10 @@ export const FormSignIn: React.FC = () => {
     const onSubmit = async (data: schemaType) => {
         const { email, password } = data;
         console.log("Login data", data);
-        const tokenData = await login({ email, password });
-        console.log("sign-in | tokenData:", tokenData);
+        
+        await login({ email, password });
 
-        router.push(routersStrings.home)
+        //router.replace(routersStrings.home)
     };
 
     const onError: SubmitErrorHandler<FieldValues> = (errors, e) => {

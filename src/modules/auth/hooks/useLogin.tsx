@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TokenData } from "../types/token";
 import { useTokenStore } from "../store/useTokenStore";
-import {API_KEY, BASE_URL, USER_SCOPE} from "@env";
+import { USER_SCOPE } from "@env";
 import useToast from "@/modules/shared/hooks/useToast";
+import { apiFormURLencoded } from "@/libs/api";
 
 
 type UserCredentials = {
@@ -25,21 +26,11 @@ async function getTokenData({ email, password }: UserCredentials) {
         formBody.push(encodedKey + "=" + encodedValue);
     }
 
-    const result = await fetch(`${BASE_URL}login/`, {
-        method: "POST",
-        headers: {
-            Accept: 'application/x-www-form-urlencoded',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-API-Key': API_KEY,
-        },
-        body: formBody.join("&")
-    });
-    
-    if (result.status === 401) throw new Error("Email ou senha incorretos")
+    const response = await apiFormURLencoded.post('/login', formBody.join("&"));
 
-    if (!result.ok) throw new Error("Erro ao realizar login")
+    if (response.status !== 200) throw new Error("Erro ao realizar login")
 
-    const data: TokenData = await result.json()
+    const data: TokenData = response.data
 
     return data
 }
@@ -51,13 +42,16 @@ export function useLogin() {
 
     return useMutation({
         mutationFn: async ({ email, password }: UserCredentials) => {
-            const tokenData = await getTokenData({email, password});
-            
+            const tokenData = await getTokenData({ email, password });
+
             setToken(tokenData);
 
             return tokenData;
         },
         onSuccess: async () => await queryClient.invalidateQueries({ queryKey: ['token'] }),
-        onError: (error: Error) => showToast("danger", error.message)
+        onError: (error: Error) => {
+            console.log("error.message:", error.message);
+            showToast("danger", error.message)
+        }
     })
 }

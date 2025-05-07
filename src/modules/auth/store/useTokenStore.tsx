@@ -4,22 +4,20 @@ import { TokenData } from "../types/token";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Token = {
-    tokenData: TokenData,
+    tokenData: TokenData | undefined,
     setToken: (tokenData: TokenData) => void;
     resetToken: () => void;
-}
-
-export const tokenDataInitialValues = {
-    access_token: "",
-    token_type: ""
 }
 
 export const useTokenStore = create(
     persist<Token>(
         (set) => ({
-            tokenData: tokenDataInitialValues,
-            setToken: (tokenData) => set({tokenData: tokenData}),
-            resetToken: () => set({tokenData: tokenDataInitialValues}),
+            tokenData: undefined,
+            setToken: (tokenData) => set({ tokenData: tokenData }),
+            resetToken: async () => {
+                set({ tokenData: undefined });
+                await AsyncStorage.removeItem("tokenstore");
+            }
         }),
         {
             name: "tokenstore",

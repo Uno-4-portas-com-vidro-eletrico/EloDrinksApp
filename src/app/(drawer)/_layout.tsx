@@ -7,9 +7,11 @@ import _ from "lodash";
 import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { View } from "react-native";
+import { useTokenStore } from "@/modules/auth/store/useTokenStore";
 
 const CustomDrawerContent = ({ ...props }) => {
     const pathname = usePathname();
+    const resetToken = useTokenStore(state => state.resetToken)
 
     const itemsMenu = [
         {
@@ -30,6 +32,10 @@ const CustomDrawerContent = ({ ...props }) => {
             show: true,
         },
     ];
+
+    const logout = () => {
+        resetToken();
+    }
 
     return (
         <DrawerContentScrollView {...props} showsVerticalScrollIndicator={true}>
@@ -82,6 +88,7 @@ const CustomDrawerContent = ({ ...props }) => {
                                 marginVertical: 3,
                             }}
                             onPress={() => {
+                                item.label === "Sair" ? logout() : null;
                                 router.push(item.router);
                             }}
                         />
