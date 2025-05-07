@@ -1,15 +1,25 @@
 import { router } from "expo-router";
 import React from "react";
-import { ScrollView, Dimensions, View, ViewStyle, Image } from "react-native";
+import { ScrollView, Dimensions, View, ViewStyle, Image, InteractionManager } from "react-native";
 import { Heading } from "../shared/components/ui/heading";
 import { cn } from "../shared/utils/cn";
 import { routersStrings } from "../shared/utils/routers";
 import { Button } from "../shared/components/ui/button";
+import { useTokenStore } from "../auth/store/useTokenStore";
 
 export default function HomeInital() {
     const scrollViewRef = React.useRef<ScrollView>(null);
     const { width, height } = Dimensions.get("window");
     const [active, setActive] = React.useState(0);
+    const tokenData = useTokenStore(state => state.tokenData);
+
+    React.useEffect(() => {
+        console.log("HomeInital | tokenData:", tokenData);
+        InteractionManager.runAfterInteractions(() => {
+            if (tokenData)
+                router.push(routersStrings.home);
+        });
+    }, [tokenData]);
 
     const carouselItems = [
         {

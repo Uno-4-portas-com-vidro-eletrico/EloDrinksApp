@@ -1,9 +1,11 @@
 import { Inter_700Bold, useFonts } from '@expo-google-fonts/inter';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SplashScreen, Stack } from "expo-router";
 import { useCallback } from 'react';
 import { StatusBar } from "react-native";
 import FlashMessage from 'react-native-flash-message';
 
+const queryClient = new QueryClient();
 
 const MyStatusBar = () => (
     <StatusBar
@@ -29,7 +31,7 @@ export default function Layout() {
     if (!fontsLoaded) return null;
 
     return (
-        <>
+        <QueryClientProvider client={queryClient}>
             <FlashMessage />
             <MyStatusBar />
             <Stack
@@ -57,6 +59,6 @@ export default function Layout() {
                     options={{ title: "Recuperar senha" }}
                 />
             </Stack>
-        </>
+        </QueryClientProvider>
     );
 }
