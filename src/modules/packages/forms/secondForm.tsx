@@ -15,7 +15,7 @@ const eventSchema = z.object({
 });
 
 const EventForm = () => {
-    const { pack } = usePackStore();
+    const { pack, setEventData } = usePackStore();
     const [modalVisible, setModalVisible] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -44,6 +44,7 @@ const EventForm = () => {
             setErrors(newErrors);
             return;
         }
+        setEventData(result.data)
         router.push(routersStrings.newOrder_packages3);
         console.log("Formulário enviado com sucesso", result.data);
     };

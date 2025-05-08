@@ -2,19 +2,32 @@ import { Alert, Pressable } from "react-native";
 import { router } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 
-export const BtnBackHeader = ({ confirmBack }: { confirmBack?: boolean }) => {
+interface BtnBackHeaderProps {
+    confirmBack?: boolean;
+    goBackTo?: string;
+}
+
+export const BtnBackHeader = ({ confirmBack, goBackTo }: BtnBackHeaderProps) => {
     const handleBackPress = () => {
+        const goBack = () => {
+            if (goBackTo) {
+                router.replace(goBackTo);
+            } else {
+                router.back();
+            }
+        };
+
         if (confirmBack) {
             Alert.alert(
                 "Confirmar",
                 "Tem certeza que deseja sair?\nVocê perderá TODO o progresso do seu orçamento!",
                 [
                     { text: "Cancelar", style: "cancel" },
-                    { text: "Sim", onPress: () => router.back() },
+                    { text: "Sim", onPress: goBack },
                 ]
             );
         } else {
-            router.back();
+            goBack();
         }
     };
 
