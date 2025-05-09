@@ -1,44 +1,12 @@
 import React, { useState } from 'react';
-import { View, FlatList, TextInput, TouchableOpacity, Text } from 'react-native';
+import { View, FlatList, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { PackageItem } from './package-item';
-import DropDownPicker from 'react-native-dropdown-picker';
 import { router } from 'expo-router';
 import { routersStrings } from '@/modules/shared/utils/routers';
 import { SearchBar } from './search-bar';
 import { usePackStore } from '../store/useOrderStore';
-
-const packages = [
-	{
-		id: '1',
-		name: 'Prime Package',
-		type: 'Corporate Event',
-		guests: 50,
-		price: 1500,
-		description: 'Ideal for corporate events.',
-		structure: 'Complete bar, bartender, personalized glasses',
-		products: ['Caipirinha', 'Gin Tonic', 'Soda', 'Water'],
-	},
-	{
-		id: '2',
-		name: 'Executive Package',
-		type: 'Wedding Party',
-		guests: 100,
-		price: 3000,
-		description: 'High sophistication for large events.',
-		structure: 'Double bar, 2 bartenders, decorated lounge',
-		products: ['Whisky', 'Imported Vodka', 'Energy Drink', 'Water'],
-	},
-	{
-		id: '3',
-		name: 'Executive Package',
-		type: 'Wedding Party',
-		guests: 100,
-		price: 3000,
-		description: 'High sophistication for large events.',
-		structure: 'Double bar, 2 bartenders, decorated lounge',
-		products: ['Whisky', 'Imported Vodka', 'Energy Drink', 'Water'],
-	},
-];
+import { usePackagesInfinite, useSearchPackages } from '../hooks/usePackages';
+import { LoadingIndicator } from '@/modules/shared/components/commons/loading';
 
 export default function PackageList() {
 	const { setPack } = usePackStore();
@@ -46,11 +14,29 @@ export default function PackageList() {
 	const [searchField, setSearchField] = useState('nome');
 	const [items, setItems] = useState([
 		{ label: 'Nome', value: 'nome' },
-		{ label: 'Tipo', value: 'tipo' }
+		// { label: 'Tipo', value: 'tipo' }
 	]);
 	const [searchQuery, setSearchQuery] = useState('');
-
 	const [selectedPackageId, setSelectedPackageId] = useState<string | null>(null);
+
+	const {
+		data: infiniteData,
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
+		isLoading: isLoadingInfinite,
+	} = usePackagesInfinite(10);
+
+	const {
+		data: searchData,
+		isLoading: isSearchLoading,
+	} = useSearchPackages(searchQuery);
+
+	const isSearching = searchQuery.trim().length > 0;
+
+	const packages = isSearching
+		? searchData ?? []
+		: infiniteData?.pages.flat() ?? [];
 
 	const handleSelect = (id: string) => {
 		setSelectedPackageId(id === selectedPackageId ? null : id);
@@ -64,6 +50,7 @@ export default function PackageList() {
 		}
 	};
 
+	const isLoading = isSearching ? isSearchLoading : isLoadingInfinite;
 
 	return (
 		<>
@@ -93,12 +80,14 @@ export default function PackageList() {
 					ListHeaderComponent={() => null}
 					keyboardDismissMode="interactive"
 					keyboardShouldPersistTaps="always"
-					// onEndReached={() => {
-					// 	if (hasNextPage && !isFetchingNextPage) {
-					// 		fetchNextPage();
-					// 	}
-					// }}
-					onEndReachedThreshold={0.1} />
+					onEndReached={() => {
+						if (hasNextPage && !isFetchingNextPage) {
+							fetchNextPage();
+						}
+					}}
+					onEndReachedThreshold={0.1}
+					ListFooterComponent={isLoading ? <LoadingIndicator /> : null}
+				/>
 			</View >
 
 			{selectedPackageId && (

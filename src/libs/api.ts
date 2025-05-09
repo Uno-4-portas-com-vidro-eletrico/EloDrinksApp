@@ -33,7 +33,7 @@ const attachToken = (request: InternalAxiosRequestConfig): InternalAxiosRequestC
     const token = useTokenStore.getState().tokenData;
 
     if (token && request.headers) {
-        request.headers.Authorization = `Bearer ${token}`;
+        request.headers.Authorization = `Bearer ${token.access_token}`;
     }
 
     return request;
@@ -47,7 +47,7 @@ const handleResponseError = (error: AxiosError) => {
     const isProtectedRoute = requestUrl
         ? protectedRoutes.some(route => requestUrl.includes(route))
         : false;
-    console.log("requestUrl:", requestUrl);
+
     if (requestUrl?.includes("/login") && error.response?.status === 401)
         throw new Error("Email ou senha incorretos")
 

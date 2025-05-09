@@ -1,15 +1,5 @@
 import { create } from "zustand";
-
-interface Pack {
-    id: string;
-    name: string;
-    type: string;
-    guests: number;
-    price: number;
-    description: string;
-    structure: string;
-    products: string[];
-}
+import { Package } from "../schema/Package";
 
 interface EventData {
     eventName: string;
@@ -19,9 +9,9 @@ interface EventData {
 }
 
 interface PackStore {
-    pack: Pack | null;
+    pack: Package | null;
     eventData: EventData | null;
-    setPack: (pack: Pack) => void;
+    setPack: (pack: Package) => void;
     clearPack: () => void;
     setEventData: (data: EventData) => void;
     clearEventData: () => void;

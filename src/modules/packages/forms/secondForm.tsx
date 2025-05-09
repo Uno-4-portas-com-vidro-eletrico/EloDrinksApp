@@ -137,10 +137,10 @@ const EventForm = () => {
                         <View className="flex-1 justify-center items-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
                             <View className="bg-white p-6 rounded-2xl w-4/5">
                                 <Text className="text-lg font-bold text-[#101820] mb-4">{pack.name}</Text>
-                                <Text className="text-sm text-zinc-600 mb-2">Tipo: {pack.type}</Text>
-                                <Text className="text-sm text-zinc-600 mb-2">Convidados: {pack.guests}</Text>
+                                <Text className="text-sm text-zinc-600 mb-2">Tipo de evento: {pack.event_type}</Text>
+                                <Text className="text-sm text-zinc-600 mb-2">Convidados: {pack.guest_count}</Text>
                                 <Text className="text-base font-bold text-[#101820] mb-4">R$ {pack.price.toFixed(2)}</Text>
-                                <Text className="text-sm text-zinc-600">{pack.description}</Text>
+                                <Text className="text-sm text-zinc-600">{pack.structure_id}</Text>
 
                                 <TouchableOpacity
                                     className="mt-4 px-4 bg-[#9D4815] rounded-xl py-2"
