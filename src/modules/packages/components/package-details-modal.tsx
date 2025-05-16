@@ -71,45 +71,52 @@ export const PackageDetailsModal = ({ visible, onClose, pack }: PackageDetailsMo
                             </View>
                         )}
 
-                        {packageData && packageData.products.length > 0 && (
-                            <View className="mt-4">
-                                <Text className="text-lg font-bold text-[#5A5040] bg-[#F7F6F3] py-1 px-1 text-center">Produtos</Text>
-                                {packageData.products.map(({ id, quantity }) => (
-                                    <ProductItem
-                                        key={id}
-                                        productId={id}
-                                        quantity={quantity}
-                                        onLoad={handleProductLoaded}
-                                    />
-                                ))}
+                        {isLoadingPackage ? (
+                            <LoadingIndicator />
+                        ) : (
+                            <>
+                                {packageData && packageData.products.length > 0 && (
+                                    <View className="mt-4">
+                                        <Text className="text-lg font-bold text-[#5A5040] bg-[#F7F6F3] py-1 px-1 text-center">Produtos</Text>
+                                        {packageData.products.map(({ id, quantity }) => (
+                                            <ProductItem
+                                                key={id}
+                                                productId={id}
+                                                quantity={quantity}
+                                                onLoad={handleProductLoaded}
+                                            />
+                                        ))}
 
-                                {Object.entries(groupedProducts).map(([category, products]) => (
-                                    <View key={category} className="mt-6">
-                                        <Text className="text-md font-bold text-[#101820] mb-2">{category}</Text>
-                                        <HorizontalScroll>
-                                            {products.map(product => (
-                                                <View
-                                                    key={product.id}
-                                                    className="bg-zinc-100 rounded-xl p-3 mr-3"
-                                                    style={{ width: 140, height: 160 }} // card menor e proporcional
-                                                >
-                                                    <Image
-                                                        source={{ uri: product.img_url }}
-                                                        className="w-full h-20 rounded-lg mb-2"
-                                                        resizeMode="cover"
-                                                    />
-                                                    <Text className="text-sm font-semibold text-[#101820]">{product.name}</Text>
-                                                    <Text className="text-xs text-zinc-600">Qtd: {product.quantity}</Text>
-                                                    <Text className="text-xs text-zinc-600">
-                                                        R$ {(product.price * product.quantity).toFixed(2)}
-                                                    </Text>
-                                                </View>
-                                            ))}
-                                        </HorizontalScroll>
+                                        {Object.entries(groupedProducts).map(([category, products]) => (
+                                            <View key={category} className="mt-6">
+                                                <Text className="text-md font-bold text-[#101820] mb-2">{category}</Text>
+                                                <HorizontalScroll>
+                                                    {products.map(product => (
+                                                        <View
+                                                            key={product.id}
+                                                            className="bg-zinc-100 rounded-xl p-3 mr-3"
+                                                            style={{ width: 140, height: 160 }} // card menor e proporcional
+                                                        >
+                                                            <Image
+                                                                source={{ uri: product.img_url }}
+                                                                className="w-full h-20 rounded-lg mb-2"
+                                                                resizeMode="cover"
+                                                            />
+                                                            <Text className="text-sm font-semibold text-[#101820]">{product.name}</Text>
+                                                            <Text className="text-xs text-zinc-600">Qtd: {product.quantity}</Text>
+                                                            <Text className="text-xs text-zinc-600">
+                                                                R$ {(product.price * product.quantity).toFixed(2)}
+                                                            </Text>
+                                                        </View>
+                                                    ))}
+                                                </HorizontalScroll>
+                                            </View>
+                                        ))}
                                     </View>
-                                ))}
-                            </View>
+                                )}
+                            </>
                         )}
+
                     </ScrollView>
                     <TouchableOpacity
                         className="fixed mt-4 -mb-4 px-4 py-3 bg-[#9D4815] rounded-xl"
