@@ -38,7 +38,7 @@ export const ResumePackage = ({ packData }: ResumePackageProps) => {
 
     return (
         <View className="bg-white p-4 rounded-xl shadow-md">
-            <Text className="text-xl font-bold text-[#101820] bg-[#E0CEAA] py-1 px-1">Resumo do Pacote Escolhido</Text>
+            <Text className="text-xl font-bold text-[#101820] bg-[#E0CEAA] py-1 px-2">Resumo do Pacote Escolhido</Text>
             <View className="bg-white px-2 w-full border-x-0 border-l border-r border-b pt-2 pb-8 border-[#E0CEAA]">
                 <Text className="text-sm font-bold text-[#F7F6F3] mb-1 bg-[#5A5040] py-1 px-1 text-center">{pack.name}</Text>
                 <Text className="text-sm text-zinc-700 mb-1">Tipo de evento: {pack.event_type}</Text>
