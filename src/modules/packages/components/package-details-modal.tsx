@@ -51,26 +51,29 @@ export const PackageDetailsModal = ({ visible, onClose, pack }: PackageDetailsMo
             >
                 <View className="bg-white px-6 py-8 rounded-2xl w-11/12 max-w-md max-h-[80%]">
                     <ScrollView>
-                        <Text className="text-lg font-bold text-[#101820] mb-4">{pack.name}</Text>
+                        <Text className="text-lg font-bold text-[#F7F6F3] mb-4 bg-[#5A5040] py-1 px-1 text-center">{pack.name}</Text>
 
                         <Text className="text-sm text-zinc-700 mb-1">Tipo de evento: {pack.event_type}</Text>
                         <Text className="text-sm text-zinc-700 mb-1">Convidados: {pack.guest_count}</Text>
                         <Text className="text-base font-bold text-[#101820] mb-4">
-                            R$ {pack.price.toFixed(2)}
+                            Preço R$ {pack.price.toFixed(2)}
                         </Text>
 
                         {isLoadingStructure ? (
                             <LoadingIndicator />
                         ) : (
-                            <View>
+                            <View className='mb-6 mt-6'>
+                                <Text className="text-lg font-bold text-[#5A5040] mb-4 bg-[#F7F6F3] py-1 px-1 text-center">Estrutura do pacote</Text>
                                 <Text className="text-sm text-zinc-600">Estrutura: {structureData?.name}</Text>
-                                <Text className="text-sm text-zinc-600">Preço: R$ {structureData?.price}</Text>
+                                <Text className="text-sm font-bold text-[#101820] mb-4">
+                                    Preço R$ {structureData?.price.toFixed(2)}
+                                </Text>
                             </View>
                         )}
 
                         {packageData && packageData.products.length > 0 && (
                             <View className="mt-4">
-                                <Text className="text-base font-semibold mb-2 text-[#101820]">Produtos:</Text>
+                                <Text className="text-lg font-bold text-[#5A5040] bg-[#F7F6F3] py-1 px-1 text-center">Produtos</Text>
                                 {packageData.products.map(({ id, quantity }) => (
                                     <ProductItem
                                         key={id}

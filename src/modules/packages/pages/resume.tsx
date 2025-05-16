@@ -2,7 +2,7 @@ import { Stepper } from "@/modules/shared/components/commons/stepper";
 import { Alert, ScrollView, View } from "react-native";
 import { ResumeDetails } from "../components/resume-details";
 import { usePackStore } from "../store/useOrderStore";
-import { ResumePackage } from "../components/package-details";
+import { ResumePackage } from "../components/resume-package";
 import { Button } from "@/modules/shared/components/ui/button";
 import { router } from "expo-router";
 import { routersStrings } from "@/modules/shared/utils/routers";
@@ -11,7 +11,7 @@ const PageNewOrderResume = () => {
     const { eventData, pack } = usePackStore();
 
     return (
-        <View className="bg-white rounded-3xl px-6 py-2 mx-4 mt-6 shadow-md">
+        <View className="bg-white rounded-3xl px-2 py-2 mx-4 mt-6 shadow-md">
             <Stepper currentStep={3} totalSteps={3} />
             <ScrollView className="h-4/6">
                 <ResumeDetails eventData={eventData} />
