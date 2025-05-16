@@ -6,6 +6,7 @@ import { z } from "zod";
 import { routersStrings } from "@/modules/shared/utils/routers";
 import { usePackStore } from "../store/useOrderStore";
 import useToast from "@/modules/shared/hooks/useToast";
+import { PackageDetailsModal } from "../components/package-details-modal";
 
 const eventSchema = z.object({
     eventName: z.string().min(1, "Nome do evento é obrigatório"),
@@ -128,29 +129,13 @@ const EventForm = () => {
 
             {pack ? (
                 <>
-                    <Modal
-                        visible={modalVisible}
-                        transparent={true}
-                        animationType="slide"
-                        onRequestClose={() => setModalVisible(false)}
-                    >
-                        <View className="flex-1 justify-center items-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
-                            <View className="bg-white p-6 rounded-2xl w-4/5">
-                                <Text className="text-lg font-bold text-[#101820] mb-4">{pack.name}</Text>
-                                <Text className="text-sm text-zinc-600 mb-2">Tipo de evento: {pack.event_type}</Text>
-                                <Text className="text-sm text-zinc-600 mb-2">Convidados: {pack.guest_count}</Text>
-                                <Text className="text-base font-bold text-[#101820] mb-4">R$ {pack.price.toFixed(2)}</Text>
-                                <Text className="text-sm text-zinc-600">{pack.structure_id}</Text>
-
-                                <TouchableOpacity
-                                    className="mt-4 px-4 bg-[#9D4815] rounded-xl py-2"
-                                    onPress={() => setModalVisible(false)}
-                                >
-                                    <Text className="text-white font-bold text-center">Fechar</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </Modal>
+                    {modalVisible && (
+                        <PackageDetailsModal
+                            visible={modalVisible}
+                            onClose={() => setModalVisible(false)}
+                            pack={pack}
+                        />
+                    )}
                     <TouchableOpacity
                         className="mt-2 bg-[#5A5040] py-1 rounded-full flex-row items-center justify-center"
                         onPress={() => setModalVisible(true)}
