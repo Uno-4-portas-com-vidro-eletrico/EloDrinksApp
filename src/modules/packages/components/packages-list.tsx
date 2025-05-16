@@ -17,7 +17,7 @@ export default function PackageList() {
 		// { label: 'Tipo', value: 'tipo' }
 	]);
 	const [searchQuery, setSearchQuery] = useState('');
-	const [selectedPackageId, setSelectedPackageId] = useState<string | null>(null);
+	const [selectedPackageId, setSelectedPackageId] = useState<number | null>(null);
 
 	const {
 		data: infiniteData,
@@ -38,11 +38,11 @@ export default function PackageList() {
 		? searchData ?? []
 		: infiniteData?.pages.flat() ?? [];
 
-	const handleSelect = (id: string) => {
+	const handleSelect = (id: number) => {
 		setSelectedPackageId(id === selectedPackageId ? null : id);
 	};
 
-	const handleProceed = (packageId: string) => {
+	const handleProceed = (packageId: number) => {
 		const selectedPackage = packages.find((pkg) => pkg.id === packageId);
 		if (selectedPackage) {
 			setPack(selectedPackage);

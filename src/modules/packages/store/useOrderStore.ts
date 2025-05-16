@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Package } from "../schema/Package";
+import { Package } from "../../schema/Package";
 
 interface EventData {
     eventName: string;
