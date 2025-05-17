@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, Image } from 'react-native';
-import { useProduct } from '../hooks/useProducts';
+import { useProduct } from '@/hooks/useProducts';
 import { LoadingIndicator } from '@/modules/shared/components/commons/loading';
 import { Product } from '@/modules/schema/Product';
 

@@ -13,6 +13,6 @@ export function useCreateOrder() {
                 console.error("Error creating order:", error);
                 throw error;
             }
-        }
+        },
     });
 }

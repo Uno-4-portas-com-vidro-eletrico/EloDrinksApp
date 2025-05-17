@@ -1,8 +1,5 @@
 import React, { useRef, useState } from "react";
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import { useStructure } from "../hooks/useStructure";
-import { usePackage } from "../hooks/usePackages";
-import { LoadingIndicator } from "@/modules/shared/components/commons/loading";
+import { View, Text, Image } from "react-native";
 import { ProductItem } from "./package-details-product-item";
 import { Product } from "@/modules/schema/Product";
 import { HorizontalScroll } from "@/modules/shared/components/commons/horizontal-scroll";

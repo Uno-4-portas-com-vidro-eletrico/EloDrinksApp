@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Structure } from "../../schema/Structure";
 import { api } from "@/libs/api";
+import { Structure } from "@/modules/schema/Structure";
 
 export function useStructure(id: number) {
     return useQuery<Structure>({

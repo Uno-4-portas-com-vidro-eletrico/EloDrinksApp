@@ -1,6 +1,6 @@
 import { api } from "@/libs/api";
+import { Package } from "@/modules/schema/Package";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { Package } from "../../schema/Package";
 
 export function usePackagesInfinite(pageSize: number) {
     return useInfiniteQuery({
