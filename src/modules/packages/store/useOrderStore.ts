@@ -3,7 +3,8 @@ import { Package } from "../../schema/Package";
 
 interface EventData {
     eventName: string;
-    date: string;
+    startDate: string;
+    endDate: string;
     location: string;
     details: string;
 }
