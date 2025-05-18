@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { Modal, Text, TouchableOpacity, View, ScrollView, Image } from 'react-native';
 import { Package } from '../../schema/Package';
-import { useStructure } from '../hooks/useStructure';
+import { useStructure } from '@/hooks/useStructure';
 import { LoadingIndicator } from '@/modules/shared/components/commons/loading';
 import { ProductItem } from './package-details-product-item';
 import { Product } from '@/modules/schema/Product';
-import { usePackage } from '../hooks/usePackages';
+import { usePackage } from '@/hooks/usePackages';
 import { HorizontalScroll } from '@/modules/shared/components/commons/horizontal-scroll';
 
 interface PackageDetailsModalProps {

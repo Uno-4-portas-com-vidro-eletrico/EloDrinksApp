@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { routersStrings } from '@/modules/shared/utils/routers';
 import { SearchBar } from './search-bar';
 import { usePackStore } from '../store/useOrderStore';
-import { usePackagesInfinite, useSearchPackages } from '../hooks/usePackages';
+import { usePackagesInfinite, useSearchPackages } from '@/hooks/usePackages';
 import { LoadingIndicator } from '@/modules/shared/components/commons/loading';
 
 export default function PackageList() {

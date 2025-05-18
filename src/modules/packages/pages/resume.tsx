@@ -13,11 +13,15 @@ import { usePackage } from "@/hooks/usePackages";
 import React, { useEffect, useState } from "react";
 import { Product } from "@/modules/schema/Product";
 import { useProduct } from "@/hooks/useProducts";
+import { useUserStore } from "@/modules/auth/store/useUser";
+import useToast from "@/modules/shared/hooks/useToast";
 
 const PageNewOrderResume = () => {
+    const showToast = useToast();
     const [detailedItems, setDetailedItems] = useState<Array<Product & { quantity: number }>>([]);
     const [loadedCount, setLoadedCount] = React.useState(0);
     const { eventData, pack } = usePackStore();
+    const { user } = useUserStore();
     const { mutate, isSuccess, isError, isPending } = useCreateOrder();
     const {
         data: structureData,
@@ -57,10 +61,10 @@ const PageNewOrderResume = () => {
                     onPress: () => {
                         mutate({
                             "customer": {
-                                "id": 0,
-                                "name": "string",
-                                "email": "string",
-                                "phone": 0
+                                "id": user?.id,
+                                "name": user?.name,
+                                "email": user?.email,
+                                "phone": parseInt((user?.telephone ?? "").replace(/\D/g, ""), 10)
                             },
                             "date": {
                                 "start": eventData?.startDate,
@@ -91,6 +95,16 @@ const PageNewOrderResume = () => {
             ]
         );
     };
+
+    useEffect(() => {
+        if (isSuccess) {
+            showToast("success", "Pacote criado com sucesso!");
+            router.push(routersStrings.home);
+        }
+        if (isError) {
+            showToast("danger", "Ocorreu um erro ao criar o pacote.");
+        }
+    }, [isSuccess, isError]);
 
     return (
         <View className="bg-white rounded-3xl px-2 py-2 mx-4 mt-6 shadow-md">

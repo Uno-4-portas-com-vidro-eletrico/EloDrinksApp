@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Image } from "react-native";
 import { routersStrings } from "@/modules/shared/utils/routers";
 import { Banners } from "../components/banner";
+import { useUser } from "@/hooks/useUser";
+import { useUserStore } from "@/modules/auth/store/useUser";
 
 export default function PageHome() {
+    const { setUser } = useUserStore();
+    const { data } = useUser();
+
+    useEffect(() => {
+        if (data)
+            setUser(data)
+    }, [data]);
+
     return (
         <View className="mt-6">
             <Banners items={[

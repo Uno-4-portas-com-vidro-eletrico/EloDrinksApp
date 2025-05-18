@@ -31,6 +31,5 @@ export const ProductItem = ({ productId, quantity, onLoad }: ProductItemProps) =
         );
     }
 
-    // Só renderiza vazio, o render real acontece no modal agrupado
     return null;
 };

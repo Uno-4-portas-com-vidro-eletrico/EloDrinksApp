@@ -1,20 +1,15 @@
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/modules/shared/components/ui/tabs";
 import React from "react";
-import { View, FlatList, TextInput, Switch } from "react-native";
+import { View, FlatList, TextInput, Switch, Button } from "react-native";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/modules/shared/components/ui/tabs";
+import { useOrdersInfinite } from "@/hooks/useOrders";
 
 type EventItem = {
     id: string;
     date: string;
     eventType: string;
     selected: boolean;
+    order_status: "cancelled" | "confirmed" | "pending";
 };
-
-const mockData = Array.from({ length: 7 }, (_, index) => ({
-    id: index.toString(),
-    date: '',
-    eventType: '',
-    selected: false,
-}));
 
 const renderItem = ({ item }: { item: EventItem }) => (
     <View className="flex-row items-center space-x-2 mb-3 px-2">
@@ -35,58 +30,59 @@ const renderItem = ({ item }: { item: EventItem }) => (
 );
 
 const PageHistory = () => {
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+    } = useOrdersInfinite(101, 10);
+
+    const allOrders: EventItem[] = data?.pages.flat() ?? [];
+
+    const filteredByStatus = (status: EventItem["order_status"]) =>
+        allOrders.filter(order => order.order_status === status);
+
     return (
         <View className="bg-[#E0CEAA] h-screen">
             <View className="bg-[#F7F6F3] mx-6 my-6 rounded-3xl py-2 px-4 h-4/5">
                 <Tabs defaultValue="soon">
                     <TabsList>
-                        <TabsTrigger
-                            title={"Próximos"}
-                            value="soon"
-                        />
-                        <TabsTrigger
-                            title={"Passados"}
-                            value="past"
-                        />
-                        <TabsTrigger
-                            title={"Pendentes"}
-                            value="pending"
-                        />
+                        <TabsTrigger title="Próximos" value="soon" />
+                        <TabsTrigger title="Passados" value="past" />
+                        <TabsTrigger title="Pendentes" value="pending" />
                     </TabsList>
-                    <TabsContent
-                        value="soon"
-                        className="flex flex-col items-center justify-start w-full"
-                    >
-                        <FlatList
-                            data={mockData}
-                            renderItem={renderItem}
-                            keyExtractor={(item) => item.id}
-                        />
-                    </TabsContent>
-                    <TabsContent
-                        value="past"
-                        className="flex flex-col items-center justify-start w-full"
-                    >
-                        <FlatList
-                            data={mockData}
-                            renderItem={renderItem}
-                            keyExtractor={(item) => item.id}
-                        />
-                    </TabsContent>
-                    <TabsContent
-                        value="pending"
-                        className="flex flex-col items-center justify-start w-full"
-                    >
-                        <FlatList
-                            data={mockData}
-                            renderItem={renderItem}
-                            keyExtractor={(item) => item.id}
-                        />
-                    </TabsContent>
+
+                    {["soon", "past", "pending"].map((status) => (
+                        <TabsContent
+                            key={status}
+                            value={status}
+                            className="flex flex-col items-center justify-start w-full"
+                        >
+                            {isLoading ? (
+                                <View className="py-4"><TextInput value="Carregando..." editable={false} /></View>
+                            ) : (
+                                <>
+                                    <FlatList
+                                        data={filteredByStatus(status as EventItem["order_status"])}
+                                        renderItem={renderItem}
+                                        keyExtractor={(item) => item.id}
+                                    />
+                                    {hasNextPage && (
+                                        <Button
+                                            title={isFetchingNextPage ? "Carregando..." : "Carregar mais"}
+                                            onPress={() => fetchNextPage()}
+                                            disabled={isFetchingNextPage}
+                                        />
+                                    )}
+                                </>
+                            )}
+                        </TabsContent>
+                    ))}
                 </Tabs>
             </View>
         </View>
     );
-}
+};
 
 export default PageHistory;
