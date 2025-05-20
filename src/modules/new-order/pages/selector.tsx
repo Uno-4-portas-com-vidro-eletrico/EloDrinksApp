@@ -3,6 +3,7 @@ import { Stepper } from "../../shared/components/commons/stepper";
 import { Button } from "@/modules/shared/components/ui/button";
 import { router } from "expo-router";
 import { routersStrings } from "@/modules/shared/utils/routers";
+import { AlertDialog, AlertDialogContent, AlertDialogText, AlertDialogTitle, AlertDialogTrigger } from "@/modules/shared/components/ui/alert-dialog";
 
 const PageSelector = () => {
     return (
@@ -24,12 +25,19 @@ const PageSelector = () => {
                         label="Escolher Pacotes"
                         onPress={() => { router.push(routersStrings.newOrder_packages) }}
                     />
-                    <Text
-                        className="text-sm text-gray-500 text-center"
-                        onPress={() => { alert("Escolha esta opção para visualizar pacotes prontos criados pela nossa equipe.") }}
-                    >
-                        Dúvidas? Toque aqui para saber mais.
-                    </Text>
+                    <AlertDialog>
+                        <AlertDialogTrigger>
+                            <Text
+                                className="text-sm text-gray-500 text-center"
+                            >
+                                Dúvidas? Toque aqui para saber mais.
+                            </Text>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogTitle>Duvidas</AlertDialogTitle>
+                            <AlertDialogText>Escolha esta opção para visualizar pacotes prontos criados pela nossa equipe.</AlertDialogText>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 </View>
                 <View className="flex flex-col items-center space-y-2">
                     <Button
@@ -38,12 +46,19 @@ const PageSelector = () => {
                         label="Montar Orçamento Completo"
                         onPress={() => { router.push(routersStrings.newOrder_fullorder) }}
                     />
-                    <Text
-                        className="text-sm text-gray-500 text-center"
-                        onPress={() => { alert("Escolha esta opção para montar seu orçamento do zero.") }}
-                    >
-                        Dúvidas? Toque aqui para saber mais.
-                    </Text>
+                    <AlertDialog>
+                        <AlertDialogTrigger>
+                            <Text
+                                className="text-sm text-gray-500 text-center"
+                            >
+                                Dúvidas? Toque aqui para saber mais.
+                            </Text>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogTitle>Duvidas</AlertDialogTitle>
+                            <AlertDialogText>Escolha esta opção para montar seu orçamento do zero.</AlertDialogText>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 </View>
             </View>
         </View>

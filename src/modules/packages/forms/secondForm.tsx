@@ -5,7 +5,7 @@ import { View, Text, TextInput, TouchableOpacity, Modal } from "react-native";
 import { z } from "zod";
 import { routersStrings } from "@/modules/shared/utils/routers";
 import { usePackStore } from "../store/useOrderStore";
-import useToast from "@/modules/shared/hooks/useToast";
+import { AlertDialog, AlertDialogContent, AlertDialogText, AlertDialogTitle, AlertDialogTrigger } from "@/modules/shared/components/ui/alert-dialog";
 
 const eventSchema = z.object({
     eventName: z.string().min(1, "Nome do evento é obrigatório"),
@@ -119,12 +119,19 @@ const EventForm = () => {
                 />
                 {errors.details && <Text className="text-red-500 text-xs mt-1">{errors.details}</Text>}
             </View>
-            <Text
-                className="text-sm text-gray-500 text-center"
-                onPress={() => { alert("No campo detalhes do evento, que você irá falar as alterações que deseja fazer no pacote, que serão analisadas pela nossa equipe.") }}
-            >
-                O que são os detalhes do evento?
-            </Text>
+            <AlertDialog>
+                <AlertDialogTrigger>
+                    <Text
+                        className="text-sm text-gray-500 text-center"
+                    >
+                        O que são os detalhes do evento?
+                    </Text>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogTitle>Detalhes do Evento</AlertDialogTitle>
+                    <AlertDialogText>No campo detalhes do evento, que você irá falar as alterações que deseja fazer no pacote, que serão analisadas pela nossa equipe.</AlertDialogText>
+                </AlertDialogContent>
+            </AlertDialog>
 
             {pack ? (
                 <>
