@@ -96,14 +96,14 @@ function AlertDialogContent({
 
                     <View className="flex flex-row justify-between mt-4">
                         <Button
-                            label={onConfirm ? "cancelar" : "ok"}
+                            label={onConfirm ? "Cancelar" : "ok"}
                             variant={onConfirm ? "outline" : "default"}
                             className={`${onConfirm ? "w-[49%]" : "w-full"}`}
                             onPress={() => setOpen(false)}
                         />
                         {onConfirm && (
                             <Button
-                                label="confirmar"
+                                label="Confirmar"
                                 className="w-[49%]"
                                 onPress={handleCancel}
                             />

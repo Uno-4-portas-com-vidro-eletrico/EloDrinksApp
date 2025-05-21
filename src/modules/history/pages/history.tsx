@@ -85,6 +85,8 @@ const PageHistory = () => {
                                         data={filteredByTab(status as "pending" | "soon" | "past")}
                                         renderItem={renderItem}
                                         keyExtractor={(item) => item._id}
+                                        style={{ height: '90%' }}
+                                        contentContainerStyle={{ paddingBottom: 24 }}
                                         ListEmptyComponent={
                                             <View className="items-center justify-center py-10">
                                                 <TextInput

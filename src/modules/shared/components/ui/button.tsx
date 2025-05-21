@@ -10,7 +10,7 @@ const buttonVariants = cva(
 			variant: {
 				default: "bg-primary bg-[#9D4815]",
 				secondary: "bg-secondary bg-[#cf6627]",
-				outline: "border border-primary bg-transparent border-purple-500",
+				outline: "border border-primary bg-transparent border-[#9D4815]",
 				outline_grayscale:
 					"border border-primary bg-transparent border-zinc-300",
 				destructive: "bg-destructive border border-zinc-200 px-8",
@@ -42,7 +42,7 @@ const buttonTextVariants = cva("text-center font-medium", {
 			default: "text-primary-foreground text-white",
 			secondary: "text-secondary-foreground text-white",
 			destructive: "text-destructive-foreground",
-			outline: "text-primary-foreground text-purple-500",
+			outline: "text-primary-foreground text-[#9D4815]",
 			outline_grayscale: "text-primary-foreground text-zinc-500",
 			ghost: "text-purple-500",
 			link: "text-purple-500",
