@@ -19,14 +19,14 @@ export function useOrdersInfinite(userId: number, pageSize: number) {
     return useInfiniteQuery({
         queryKey: ["orders", userId, pageSize],
         initialPageParam: 1,
+        enabled: !!userId,
         queryFn: async ({ pageParam }) => {
-            const response = await api.get(`/orders`, {
+            const response = await api.get(`/orders/customer/${userId}`, {
                 params: {
                     page: pageParam,
                     size: pageSize,
                 },
             });
-            console.log(response.data)
             return response.data;
         },
         getNextPageParam: (lastPage, allPages) => {

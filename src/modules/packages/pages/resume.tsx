@@ -20,7 +20,7 @@ const PageNewOrderResume = () => {
     const showToast = useToast();
     const [detailedItems, setDetailedItems] = useState<Array<Product & { quantity: number }>>([]);
     const [loadedCount, setLoadedCount] = React.useState(0);
-    const { eventData, pack } = usePackStore();
+    const { eventData, pack, clearPack, clearEventData } = usePackStore();
     const { user } = useUserStore();
     const { mutate, isSuccess, isError, isPending } = useCreateOrder();
     const {
@@ -99,6 +99,8 @@ const PageNewOrderResume = () => {
     useEffect(() => {
         if (isSuccess) {
             showToast("success", "Pacote criado com sucesso!");
+            clearPack()
+            clearEventData()
             router.push(routersStrings.home);
         }
         if (isError) {
