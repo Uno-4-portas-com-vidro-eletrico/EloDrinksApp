@@ -6,6 +6,7 @@ import { useUserStore } from "@/modules/auth/store/useUser";
 import { Order, Orders } from "@/modules/schema/Order";
 import { formatDate } from "@/modules/shared/utils/date";
 import { Button } from "@/modules/shared/components/ui/button";
+import { LoadingIndicator } from "@/modules/shared/components/commons/loading";
 
 
 const renderItem = ({ item }: { item: Order }) => (
@@ -76,7 +77,7 @@ const PageHistory = () => {
                         >
                             {isLoading ? (
                                 <View className="py-4">
-                                    <TextInput value="Carregando..." editable={false} />
+                                    <LoadingIndicator />
                                 </View>
                             ) : (
                                 <>
@@ -84,13 +85,25 @@ const PageHistory = () => {
                                         data={filteredByTab(status as "pending" | "soon" | "past")}
                                         renderItem={renderItem}
                                         keyExtractor={(item) => item._id}
+                                        ListEmptyComponent={
+                                            <View className="items-center justify-center py-10">
+                                                <TextInput
+                                                    editable={false}
+                                                    value="Não tem nada aqui"
+                                                    className="text-xl text-gray-500 text-center bg-transparent"
+                                                />
+                                            </View>
+                                        }
                                     />
                                     {hasNextPage && (
-                                        <Button
-                                            label={isFetchingNextPage ? "Carregando..." : "Carregar mais"}
-                                            onPress={() => fetchNextPage()}
-                                            disabled={isFetchingNextPage}
-                                        />
+                                        isFetchingNextPage ? (
+                                            <LoadingIndicator />
+                                        ) : (
+                                            <Button
+                                                label="Carregar mais"
+                                                onPress={() => fetchNextPage()}
+                                            />
+                                        )
                                     )}
                                 </>
                             )}

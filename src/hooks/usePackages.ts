@@ -23,8 +23,9 @@ export function usePackagesInfinite(pageSize: number) {
     });
 }
 
-export function usePackage(id: number) {
+export function usePackage(id?: number) {
     return useQuery<Package>({
+        enabled: !!id,
         queryKey: ["package", id],
         queryFn: async () => {
             try {
