@@ -6,6 +6,7 @@ import { z } from "zod";
 import { router } from "expo-router";
 import { routersStrings } from "@/modules/shared/utils/routers";
 import { usePackStore } from "../store/useOrderStore";
+import { AlertDialog, AlertDialogContent, AlertDialogText, AlertDialogTitle, AlertDialogTrigger } from "@/modules/shared/components/ui/alert-dialog";
 import { PackageDetailsModal } from "../components/package-details-modal";
 
 const eventSchema = z.object({
@@ -205,17 +206,19 @@ const EventForm = () => {
                     textAlignVertical="top"
                 />
             </View>
-
-            <Text
-                className="text-sm text-gray-500 text-center"
-                onPress={() =>
-                    alert(
-                        "No campo detalhes do evento, você pode falar as alterações que deseja fazer no pacote, que serão analisadas pela nossa equipe."
-                    )
-                }
-            >
-                O que são os detalhes do evento?
-            </Text>
+            <AlertDialog>
+                <AlertDialogTrigger>
+                    <Text
+                        className="text-sm text-gray-500 text-center"
+                    >
+                        O que são os detalhes do evento?
+                    </Text>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogTitle>Detalhes do Evento</AlertDialogTitle>
+                    <AlertDialogText>No campo detalhes do evento, que você irá falar as alterações que deseja fazer no pacote, que serão analisadas pela nossa equipe.</AlertDialogText>
+                </AlertDialogContent>
+            </AlertDialog>
 
             {pack ? (
                 <>

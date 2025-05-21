@@ -6,6 +6,7 @@ import { ResumePackage } from "../components/resume-package";
 import { Button } from "@/modules/shared/components/ui/button";
 import { router } from "expo-router";
 import { routersStrings } from "@/modules/shared/utils/routers";
+import { AlertDialog, AlertDialogContent, AlertDialogText, AlertDialogTitle, AlertDialogTrigger } from "@/modules/shared/components/ui/alert-dialog";
 import { useCreateOrder } from "@/hooks/useOrders";
 import { useStructure } from "@/hooks/useStructure";
 import { LoadingIndicator } from "@/modules/shared/components/commons/loading";
@@ -122,24 +123,18 @@ const PageNewOrderResume = () => {
 
             </ScrollView>
             <View className="space-y-4 my-4">
-                <Button
-                    className="bg-[#5A5040]"
-                    label="Cancelar"
-                    onPress={() => {
-                        Alert.alert(
-                            "Confirmar",
-                            "Atenção!!!\nVocê voltará ao inicio do seu orçamento!",
-                            [
-                                { text: "Cancelar", style: "cancel" },
-                                {
-                                    text: "Sim",
-                                    onPress: () =>
-                                        router.push(routersStrings.newOrder_packages),
-                                },
-                            ]
-                        );
-                    }}
-                />
+                <AlertDialog>
+                    <AlertDialogTrigger>
+                        <Button
+                            className="bg-[#5A5040]"
+                            label="Cancelar"
+                        />
+                    </AlertDialogTrigger>
+                    <AlertDialogContent onConfirm={() => router.push(routersStrings.newOrder_packages)} >
+                        <AlertDialogTitle>Confirmar</AlertDialogTitle>
+                        <AlertDialogText>{"Atenção!!!\nVocê voltará ao inicio do seu orçamento!"}</AlertDialogText>
+                    </AlertDialogContent>
+                </AlertDialog>
                 <Button label="Confirmar" onPress={handleConfirm} />
             </View>
             {packageData && packageData.products && packageData.products.length > 0 && packageData.products.map(({ id, quantity }: { id: number; quantity: number }) => (
