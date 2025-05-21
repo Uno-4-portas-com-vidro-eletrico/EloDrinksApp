@@ -1,6 +1,7 @@
 import { Alert, Pressable } from "react-native";
 import { router } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
+import { AlertDialog, AlertDialogContent, AlertDialogText, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 
 interface BtnBackHeaderProps {
     confirmBack?: boolean;
@@ -8,31 +9,31 @@ interface BtnBackHeaderProps {
 }
 
 export const BtnBackHeader = ({ confirmBack, goBackTo }: BtnBackHeaderProps) => {
-    const handleBackPress = () => {
-        const goBack = () => {
-            if (goBackTo) {
-                router.replace(goBackTo);
-            } else {
-                router.back();
-            }
-        };
-
-        if (confirmBack) {
-            Alert.alert(
-                "Confirmar",
-                "Tem certeza que deseja sair?\nVocê perderá TODO o progresso do seu orçamento!",
-                [
-                    { text: "Cancelar", style: "cancel" },
-                    { text: "Sim", onPress: goBack },
-                ]
-            );
+    const goBack = () => {
+        if (goBackTo) {
+            router.replace(goBackTo);
         } else {
-            goBack();
+            router.back();
         }
     };
 
+    if (confirmBack)
+        return (
+            <AlertDialog>
+                <AlertDialogTrigger>
+                    <Pressable className="ml-2">
+                        <AntDesign name="arrowleft" size={32} color="#E0CEAA" />
+                    </Pressable>
+                </AlertDialogTrigger>
+                <AlertDialogContent onConfirm={goBack} >
+                    <AlertDialogTitle>Confirmar</AlertDialogTitle>
+                    <AlertDialogText>{"Tem certeza que deseja sair?\nVocê perderá TODO o progresso do seu orçamento!"}</AlertDialogText>
+                </AlertDialogContent>
+            </AlertDialog>
+        )
+
     return (
-        <Pressable className="ml-2" onPress={handleBackPress}>
+        <Pressable className="ml-2" onPress={goBack}>
             <AntDesign name="arrowleft" size={32} color="#E0CEAA" />
         </Pressable>
     );

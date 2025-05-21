@@ -1,7 +1,6 @@
 import { api } from "@/libs/api";
-import { useTokenStore } from "@/modules/auth/store/useTokenStore";
+import { Package } from "@/modules/schema/Package";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { Package } from "../schema/Package";
 
 export function usePackagesInfinite(pageSize: number) {
     return useInfiniteQuery({
@@ -14,12 +13,29 @@ export function usePackagesInfinite(pageSize: number) {
                     size: pageSize,
                 },
             });
+            console.log(response.data)
             return response.data;
         },
         getNextPageParam: (lastPage, allPages) => {
             if (lastPage.length < pageSize) return undefined;
             return allPages.length + 1;
         },
+    });
+}
+
+export function usePackage(id?: number) {
+    return useQuery<Package>({
+        enabled: !!id,
+        queryKey: ["package", id],
+        queryFn: async () => {
+            try {
+                const response = await api.get(`/packs/${id}`);
+                return response.data as Package;
+            } catch (error: unknown) {
+                console.error("Error fetching package:", error);
+                throw error;
+            }
+        }
     });
 }
 
