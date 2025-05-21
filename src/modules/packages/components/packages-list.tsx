@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 import { routersStrings } from '@/modules/shared/utils/routers';
 import { SearchBar } from './search-bar';
 import { usePackStore } from '../store/useOrderStore';
-import { usePackagesInfinite, useSearchPackages } from '../hooks/usePackages';
+import { usePackagesInfinite, useSearchPackages } from '@/hooks/usePackages';
 import { LoadingIndicator } from '@/modules/shared/components/commons/loading';
 
 export default function PackageList() {
@@ -17,7 +17,7 @@ export default function PackageList() {
 		// { label: 'Tipo', value: 'tipo' }
 	]);
 	const [searchQuery, setSearchQuery] = useState('');
-	const [selectedPackageId, setSelectedPackageId] = useState<string | null>(null);
+	const [selectedPackageId, setSelectedPackageId] = useState<number | null>(null);
 
 	const {
 		data: infiniteData,
@@ -38,11 +38,11 @@ export default function PackageList() {
 		? searchData ?? []
 		: infiniteData?.pages.flat() ?? [];
 
-	const handleSelect = (id: string) => {
+	const handleSelect = (id: number) => {
 		setSelectedPackageId(id === selectedPackageId ? null : id);
 	};
 
-	const handleProceed = (packageId: string) => {
+	const handleProceed = (packageId: number) => {
 		const selectedPackage = packages.find((pkg) => pkg.id === packageId);
 		if (selectedPackage) {
 			setPack(selectedPackage);

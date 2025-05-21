@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import { Package } from "../schema/Package";
+import { Package } from "../../schema/Package";
 
 interface EventData {
     eventName: string;
-    date: string;
+    startDate: string;
+    endDate: string;
     location: string;
     details: string;
 }

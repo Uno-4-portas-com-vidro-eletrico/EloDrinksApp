@@ -1,42 +1,91 @@
+import React, { useState, useCallback } from "react";
+import { View, Text, TextInput, TouchableOpacity, Platform, Button } from "react-native";
+import DateTimePicker, { Event as DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Ionicons } from "@expo/vector-icons";
-import { router, useFocusEffect } from "expo-router";
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Modal } from "react-native";
 import { z } from "zod";
+import { router } from "expo-router";
 import { routersStrings } from "@/modules/shared/utils/routers";
 import { usePackStore } from "../store/useOrderStore";
 import { AlertDialog, AlertDialogContent, AlertDialogText, AlertDialogTitle, AlertDialogTrigger } from "@/modules/shared/components/ui/alert-dialog";
+import { PackageDetailsModal } from "../components/package-details-modal";
 
 const eventSchema = z.object({
     eventName: z.string().min(1, "Nome do evento é obrigatório"),
-    date: z.string().min(1, "Data é obrigatória"),
+    startDate: z.date(),
+    duration: z.string().min(1, "Duração é obrigatória"),
     location: z.string().min(1, "Local é obrigatório"),
-    details: z.string()
+    details: z.string(),
 });
+
+type FormData = {
+    eventName: string;
+    startDate: Date;
+    duration: string;
+    location: string;
+    details: string;
+};
 
 const EventForm = () => {
     const { pack, setEventData } = usePackStore();
-    const [modalVisible, setModalVisible] = useState(false);
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
         eventName: "",
-        date: "",
+        startDate: new Date(),
+        duration: "",
         location: "",
         details: "",
     });
 
     const [errors, setErrors] = useState<Record<string, string>>({});
 
-    const handleChange = (field: string, value: string) => {
-        setFormData((prev) => ({ ...prev, [field]: value }));
-        setErrors((prev) => ({ ...prev, [field]: "" }));
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showTimePicker, setShowTimePicker] = useState(false);
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleChange = (field: keyof FormData, value: string | Date) => {
+        setFormData(prev => ({
+            ...prev,
+            [field]: value,
+        }));
+        setErrors(prev => ({
+            ...prev,
+            [field]: "",
+        }));
+    };
+
+    // Quando o usuário escolhe a data
+    const onDateChange = (event: any, selectedDate?: Date) => {
+        setShowDatePicker(false);
+        if (selectedDate) {
+            // Atualiza a data, mas mantendo a hora antiga
+            const newDate = new Date(formData.startDate);
+            newDate.setFullYear(selectedDate.getFullYear());
+            newDate.setMonth(selectedDate.getMonth());
+            newDate.setDate(selectedDate.getDate());
+            handleChange("startDate", newDate);
+            setShowTimePicker(true); // após escolher data, abre o picker de hora
+        }
+    };
+
+    // Quando o usuário escolhe a hora
+    const onTimeChange = (event: any, selectedTime?: Date) => {
+        setShowTimePicker(false);
+        if (selectedTime) {
+            // Atualiza a hora, mantendo a data antiga
+            const newDate = new Date(formData.startDate);
+            newDate.setHours(selectedTime.getHours());
+            newDate.setMinutes(selectedTime.getMinutes());
+            newDate.setSeconds(0);
+            handleChange("startDate", newDate);
+        }
     };
 
     const handleSubmit = () => {
         const result = eventSchema.safeParse(formData);
         if (!result.success) {
             const newErrors: Record<string, string> = {};
-            result.error.errors.forEach((err) => {
+            result.error.errors.forEach(err => {
                 if (err.path[0]) {
                     newErrors[err.path[0] as string] = err.message;
                 }
@@ -44,69 +93,108 @@ const EventForm = () => {
             setErrors(newErrors);
             return;
         }
-        setEventData(result.data)
-        router.push(routersStrings.newOrder_packages3);
-        console.log("Formulário enviado com sucesso", result.data);
-    };
 
-    useFocusEffect(
-        React.useCallback(() => {
-            return () => {
-                setFormData({
-                    eventName: "",
-                    date: "",
-                    location: "",
-                    details: "",
-                });
-                setErrors({});
-            };
-        }, [])
-    );
+        const durationInHours = parseFloat(formData.duration);
+        const endDate = new Date(formData.startDate.getTime() + durationInHours * 60 * 60 * 1000);
+        console.log({
+            ...result.data,
+            startDate: formData.startDate.toISOString(),
+            endDate: endDate.toISOString(),
+            details: formData.details ?? "",
+        })
+        setEventData({
+            ...result.data,
+            startDate: formData.startDate.toISOString(),
+            endDate: endDate.toISOString(),
+            details: formData.details ?? "",
+        });
+
+        router.push(routersStrings.newOrder_packages3);
+    };
 
     return (
         <View>
+            {/* Nome do evento */}
             <View className="mb-4">
                 <Text className="text-sm font-semibold text-gray-800 mb-1">Nome do evento</Text>
                 <TextInput
                     className="border border-gray-300 rounded-md px-3 py-2 bg-white"
                     value={formData.eventName}
                     onChangeText={(value) => handleChange("eventName", value)}
-                    keyboardType="default"
                 />
                 {errors.eventName && <Text className="text-red-500 text-xs mt-1">{errors.eventName}</Text>}
             </View>
 
+            {/* Seletor de Data e Hora */}
             <View className="mb-4">
-                <Text className="text-sm font-semibold text-gray-800 mb-1">Data</Text>
-                <TextInput
+                <Text className="text-sm font-semibold text-gray-800 mb-1">Data e hora de início</Text>
+
+                {/* Botão para abrir o date picker */}
+                <TouchableOpacity
                     className="border border-gray-300 rounded-md px-3 py-2 bg-white"
-                    value={formData.date}
-                    onChangeText={(value) => {
-                        const numericValue = value.replace(/[^0-9]/g, "");
-                        const limitedValue = numericValue.slice(0, 8);
-                        const formattedValue = limitedValue
-                            .replace(/^(\d{2})(\d)/, "$1/$2")
-                            .replace(/^(\d{2}\/\d{2})(\d)/, "$1/$2");
-                        handleChange("date", formattedValue);
-                    }}
-                    keyboardType="numeric"
-                    placeholder="DD/MM/AAAA"
-                    maxLength={10}
-                />
-                {errors.date && <Text className="text-red-500 text-xs mt-1">{errors.date}</Text>}
+                    onPress={() => setShowDatePicker(true)}
+                >
+                    <Text>{formData.startDate.toLocaleString()}</Text>
+                </TouchableOpacity>
+
+                {/* Date Picker para iOS */}
+                {Platform.OS === "ios" && showDatePicker && (
+                    <DateTimePicker
+                        value={formData.startDate}
+                        mode="datetime"
+                        display="spinner"
+                        minimumDate={new Date(new Date().setDate(new Date().getDate() + 2))}
+                        onChange={(e, date) => {
+                            if (date) handleChange("startDate", date);
+                        }}
+                    />
+                )}
+
+                {/* Date Picker para Android */}
+                {Platform.OS === "android" && showDatePicker && (
+                    <DateTimePicker
+                        value={formData.startDate}
+                        mode="date"
+                        minimumDate={new Date(new Date().setDate(new Date().getDate() + 2))}
+                        display="default"
+                        onChange={onDateChange}
+                    />
+                )}
+                {Platform.OS === "android" && showTimePicker && (
+                    <DateTimePicker
+                        value={formData.startDate}
+                        mode="time"
+                        display="default"
+                        onChange={onTimeChange}
+                    />
+                )}
             </View>
 
+            {/* Duração em horas */}
+            <View className="mb-4">
+                <Text className="text-sm font-semibold text-gray-800 mb-1">Duração (horas)</Text>
+                <TextInput
+                    className="border border-gray-300 rounded-md px-3 py-2 bg-white"
+                    value={formData.duration}
+                    onChangeText={(value) => handleChange("duration", value)}
+                    keyboardType="numeric"
+                    placeholder="Ex: 2.5"
+                />
+                {errors.duration && <Text className="text-red-500 text-xs mt-1">{errors.duration}</Text>}
+            </View>
+
+            {/* Local */}
             <View className="mb-4">
                 <Text className="text-sm font-semibold text-gray-800 mb-1">Local</Text>
                 <TextInput
                     className="border border-gray-300 rounded-md px-3 py-2 bg-white"
                     value={formData.location}
                     onChangeText={(value) => handleChange("location", value)}
-                    keyboardType="default"
                 />
                 {errors.location && <Text className="text-red-500 text-xs mt-1">{errors.location}</Text>}
             </View>
 
+            {/* Detalhes do evento */}
             <View className="mb-4">
                 <Text className="text-sm font-semibold text-gray-800 mb-1">Detalhes do evento (opcional)</Text>
                 <TextInput
@@ -117,7 +205,6 @@ const EventForm = () => {
                     numberOfLines={5}
                     textAlignVertical="top"
                 />
-                {errors.details && <Text className="text-red-500 text-xs mt-1">{errors.details}</Text>}
             </View>
             <AlertDialog>
                 <AlertDialogTrigger>
@@ -135,29 +222,9 @@ const EventForm = () => {
 
             {pack ? (
                 <>
-                    <Modal
-                        visible={modalVisible}
-                        transparent={true}
-                        animationType="slide"
-                        onRequestClose={() => setModalVisible(false)}
-                    >
-                        <View className="flex-1 justify-center items-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
-                            <View className="bg-white p-6 rounded-2xl w-4/5">
-                                <Text className="text-lg font-bold text-[#101820] mb-4">{pack.name}</Text>
-                                <Text className="text-sm text-zinc-600 mb-2">Tipo de evento: {pack.event_type}</Text>
-                                <Text className="text-sm text-zinc-600 mb-2">Convidados: {pack.guest_count}</Text>
-                                <Text className="text-base font-bold text-[#101820] mb-4">R$ {pack.price.toFixed(2)}</Text>
-                                <Text className="text-sm text-zinc-600">{pack.structure_id}</Text>
-
-                                <TouchableOpacity
-                                    className="mt-4 px-4 bg-[#9D4815] rounded-xl py-2"
-                                    onPress={() => setModalVisible(false)}
-                                >
-                                    <Text className="text-white font-bold text-center">Fechar</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </Modal>
+                    {modalVisible && (
+                        <PackageDetailsModal visible={modalVisible} onClose={() => setModalVisible(false)} pack={pack} />
+                    )}
                     <TouchableOpacity
                         className="mt-2 bg-[#5A5040] py-1 rounded-full flex-row items-center justify-center"
                         onPress={() => setModalVisible(true)}
