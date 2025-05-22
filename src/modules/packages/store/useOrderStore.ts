@@ -7,6 +7,7 @@ interface EventData {
     endDate: string;
     location: string;
     details: string;
+    duration: string;
 }
 
 interface PackStore {

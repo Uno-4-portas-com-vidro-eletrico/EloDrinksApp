@@ -42,7 +42,6 @@ const EventForm = () => {
             return;
         }
         router.push(routersStrings.newOrder_fullorder2)
-        console.log("Formulário enviado com sucesso", result.data);
     };
 
     useFocusEffect(

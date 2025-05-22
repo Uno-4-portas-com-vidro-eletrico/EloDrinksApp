@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, FlatList, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { PackageItem } from './package-item';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { routersStrings } from '@/modules/shared/utils/routers';
 import { SearchBar } from './search-bar';
 import { usePackStore } from '../store/useOrderStore';
@@ -9,7 +9,7 @@ import { usePackagesInfinite, useSearchPackages } from '@/hooks/usePackages';
 import { LoadingIndicator } from '@/modules/shared/components/commons/loading';
 
 export default function PackageList() {
-	const { setPack } = usePackStore();
+	const { pack, setPack } = usePackStore();
 	const [open, setOpen] = useState(false);
 	const [searchField, setSearchField] = useState('nome');
 	const [items, setItems] = useState([
@@ -18,6 +18,16 @@ export default function PackageList() {
 	]);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [selectedPackageId, setSelectedPackageId] = useState<number | null>(null);
+
+	useFocusEffect(
+		useCallback(() => {
+			if (pack?.id) {
+				setSelectedPackageId(pack.id);
+			} else {
+				setSelectedPackageId(null);
+			}
+		}, [pack])
+	);
 
 	const {
 		data: infiniteData,
@@ -46,6 +56,9 @@ export default function PackageList() {
 		const selectedPackage = packages.find((pkg) => pkg.id === packageId);
 		if (selectedPackage) {
 			setPack(selectedPackage);
+			setSearchQuery('');
+			setSelectedPackageId(null);
+			setSearchField('nome');
 			router.push(routersStrings.newOrder_packages2);
 		}
 	};
