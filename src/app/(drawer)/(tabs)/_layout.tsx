@@ -10,6 +10,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { cn } from "@/modules/shared/utils/cn";
 import { BtnBackHeader } from "@/modules/shared/components/commons/btn-back-button";
 import FlashMessage from "react-native-flash-message";
+import { routersStrings } from "@/modules/shared/utils/routers";
 
 export function ErrorBoundary(props: ErrorBoundaryProps) {
     return <ErrorBoundaryComponent {...props} />;
@@ -134,7 +135,7 @@ export default function Layout() {
                         name="history/[id]/index"
                         options={{
                             title: "Detalhes do histórico",
-                            headerLeft: () => <BtnBackHeader confirmBack={true} />,
+                            headerLeft: () => <BtnBackHeader goBackTo={routersStrings.history} />,
                             href: null,
                         }}
                     />
@@ -163,7 +164,7 @@ export default function Layout() {
                         name="new-order/packages/index"
                         options={{
                             title: "Pacotes",
-                            headerLeft: () => <BtnBackHeader confirmBack={true} />,
+                            headerLeft: () => <BtnBackHeader goBackTo={routersStrings.newOrder} />,
                             href: null,
                         }}
                     />
@@ -171,7 +172,7 @@ export default function Layout() {
                         name="new-order/packages/second/index"
                         options={{
                             title: "Detalhes do pedido",
-                            headerLeft: () => <BtnBackHeader confirmBack={true} />,
+                            headerLeft: () => <BtnBackHeader goBackTo={routersStrings.newOrder_packages} />,
                             href: null,
                         }}
                     />
@@ -179,7 +180,7 @@ export default function Layout() {
                         name="new-order/packages/resume/index"
                         options={{
                             title: "Resumo do pedido",
-                            headerLeft: () => <BtnBackHeader confirmBack={true} />,
+                            headerLeft: () => <BtnBackHeader goBackTo={routersStrings.newOrder_packages2} />,
                             href: null,
                         }}
                     />

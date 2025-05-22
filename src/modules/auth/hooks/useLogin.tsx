@@ -50,7 +50,6 @@ export function useLogin() {
         },
         onSuccess: async () => await queryClient.invalidateQueries({ queryKey: ['token'] }),
         onError: (error: Error) => {
-            console.log("error.message:", error.message);
             showToast("danger", error.message)
         }
     })

@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Platform, Button } from "react
 import DateTimePicker, { Event as DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Ionicons } from "@expo/vector-icons";
 import { z } from "zod";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { routersStrings } from "@/modules/shared/utils/routers";
 import { usePackStore } from "../store/useOrderStore";
 import { AlertDialog, AlertDialogContent, AlertDialogText, AlertDialogTitle, AlertDialogTrigger } from "@/modules/shared/components/ui/alert-dialog";
@@ -26,7 +26,7 @@ type FormData = {
 };
 
 const EventForm = () => {
-    const { pack, setEventData } = usePackStore();
+    const { pack, setEventData, eventData } = usePackStore();
 
     const [formData, setFormData] = useState<FormData>({
         eventName: "",
@@ -43,6 +43,29 @@ const EventForm = () => {
 
     const [modalVisible, setModalVisible] = useState(false);
 
+
+    useFocusEffect(
+        useCallback(() => {
+            if (eventData?.eventName) {
+                setFormData({
+                    eventName: eventData.eventName,
+                    startDate: new Date(eventData.startDate),
+                    duration: eventData.duration,
+                    location: eventData.location,
+                    details: eventData.details,
+                });
+            } else {
+                setFormData({
+                    eventName: "",
+                    startDate: new Date(),
+                    duration: "",
+                    location: "",
+                    details: "",
+                });
+            }
+        }, [eventData])
+    );
+
     const handleChange = (field: keyof FormData, value: string | Date) => {
         setFormData(prev => ({
             ...prev,
@@ -54,25 +77,21 @@ const EventForm = () => {
         }));
     };
 
-    // Quando o usuário escolhe a data
     const onDateChange = (event: any, selectedDate?: Date) => {
         setShowDatePicker(false);
         if (selectedDate) {
-            // Atualiza a data, mas mantendo a hora antiga
             const newDate = new Date(formData.startDate);
             newDate.setFullYear(selectedDate.getFullYear());
             newDate.setMonth(selectedDate.getMonth());
             newDate.setDate(selectedDate.getDate());
             handleChange("startDate", newDate);
-            setShowTimePicker(true); // após escolher data, abre o picker de hora
+            setShowTimePicker(true);
         }
     };
 
-    // Quando o usuário escolhe a hora
     const onTimeChange = (event: any, selectedTime?: Date) => {
         setShowTimePicker(false);
         if (selectedTime) {
-            // Atualiza a hora, mantendo a data antiga
             const newDate = new Date(formData.startDate);
             newDate.setHours(selectedTime.getHours());
             newDate.setMinutes(selectedTime.getMinutes());
@@ -101,6 +120,13 @@ const EventForm = () => {
             startDate: formData.startDate.toISOString(),
             endDate: endDate.toISOString(),
             details: formData.details ?? "",
+        });
+        setFormData({
+            eventName: "",
+            startDate: new Date(),
+            duration: "",
+            location: "",
+            details: "",
         });
 
         router.push(routersStrings.newOrder_packages3);

@@ -6,6 +6,8 @@ export const routersStrings = {
     history: "/(drawer)/(tabs)/history",
     historyDetails: (orderId: string) => `/(drawer)/(tabs)/history/${orderId}`,
 
+    newOrder: "/(drawer)/(tabs)/new-order",
+
     newOrder_packages: "/(drawer)/(tabs)/new-order/packages",
     newOrder_packages2: "/(drawer)/(tabs)/new-order/packages/second",
     newOrder_packages3: "/(drawer)/(tabs)/new-order/packages/resume",
