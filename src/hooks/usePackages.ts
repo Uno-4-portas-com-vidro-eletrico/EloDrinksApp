@@ -13,7 +13,6 @@ export function usePackagesInfinite(pageSize: number) {
                     size: pageSize,
                 },
             });
-            console.log(response.data)
             return response.data;
         },
         getNextPageParam: (lastPage, allPages) => {

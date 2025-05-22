@@ -96,12 +96,6 @@ const EventForm = () => {
 
         const durationInHours = parseFloat(formData.duration);
         const endDate = new Date(formData.startDate.getTime() + durationInHours * 60 * 60 * 1000);
-        console.log({
-            ...result.data,
-            startDate: formData.startDate.toISOString(),
-            endDate: endDate.toISOString(),
-            details: formData.details ?? "",
-        })
         setEventData({
             ...result.data,
             startDate: formData.startDate.toISOString(),

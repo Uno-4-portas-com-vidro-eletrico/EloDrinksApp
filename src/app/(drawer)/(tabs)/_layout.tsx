@@ -131,6 +131,14 @@ export default function Layout() {
                         }}
                     />
                     <Tabs.Screen
+                        name="history/[id]/index"
+                        options={{
+                            title: "Detalhes do histórico",
+                            headerLeft: () => <BtnBackHeader confirmBack={true} />,
+                            href: null,
+                        }}
+                    />
+                    <Tabs.Screen
                         name="profile/index"
                         options={{
                             title: "Perfil",

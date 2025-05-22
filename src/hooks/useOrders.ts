@@ -1,4 +1,5 @@
 import { api } from "@/libs/api";
+import { Order } from "@/modules/schema/Order";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 
 export function useCreateOrder() {
@@ -33,5 +34,20 @@ export function useOrdersInfinite(userId: number, pageSize: number) {
             if (lastPage.length < pageSize) return undefined;
             return allPages.length + 1;
         },
+    });
+}
+
+export function useOrderById(orderId: string) {
+    return useQuery<Order>({
+        queryKey: ["order", orderId],
+        queryFn: async () => {
+            try {
+                const response = await api.get(`/orders/${orderId}`);
+                return response.data as Order;
+            } catch (error: unknown) {
+                console.error("Error fetching order:", error);
+                throw error;
+            }
+        }
     });
 }

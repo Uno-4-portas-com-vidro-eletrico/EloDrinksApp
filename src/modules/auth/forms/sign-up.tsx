@@ -43,10 +43,9 @@ export const FormSignUp: React.FC = () => {
 
     const onSubmit = async (data: schemaType) => {
         const { name, email, phone, password, confirmPassword } = data;
-        console.log("Sign-up data", data);
-        
+
         await register({ name, email, telephone: phone, password, confirmPassword });
-        
+
         //router.replace(routersStrings.home);
     };
 
