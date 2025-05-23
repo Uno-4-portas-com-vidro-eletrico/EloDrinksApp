@@ -3,7 +3,7 @@ import { View, FlatList, TouchableOpacity, Text, ActivityIndicator } from 'react
 import { PackageItem } from './package-item';
 import { router, useFocusEffect } from 'expo-router';
 import { routersStrings } from '@/modules/shared/utils/routers';
-import { SearchBar } from './search-bar';
+import { SearchBar } from '../../shared/components/commons/search-bar';
 import { usePackStore } from '../store/useOrderStore';
 import { usePackagesInfinite, useSearchPackages } from '@/hooks/usePackages';
 import { LoadingIndicator } from '@/modules/shared/components/commons/loading';
