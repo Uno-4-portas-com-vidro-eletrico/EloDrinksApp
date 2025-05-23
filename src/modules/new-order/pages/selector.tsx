@@ -1,11 +1,32 @@
-import { View, Text } from "react-native";
+import { View, Text, Modal, TouchableOpacity } from "react-native";
 import { Stepper } from "../../shared/components/commons/stepper";
 import { Button } from "@/modules/shared/components/ui/button";
 import { router } from "expo-router";
 import { routersStrings } from "@/modules/shared/utils/routers";
 import { AlertDialog, AlertDialogContent, AlertDialogText, AlertDialogTitle, AlertDialogTrigger } from "@/modules/shared/components/ui/alert-dialog";
+import { usePackStore } from "@/modules/packages/store/useOrderStore";
+import { useState } from "react";
 
 const PageSelector = () => {
+    const { pack, clearPack, clearEventData } = usePackStore();
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    function handleChoosePackages() {
+        if (pack) {
+            setIsModalVisible(true);
+        } else {
+            router.push(routersStrings.newOrder_packages);
+        }
+    }
+
+    function handleModalConfirm() {
+        usePackStore.persist.clearStorage();
+        setIsModalVisible(false);
+        clearPack();
+        clearEventData();
+        router.push(routersStrings.newOrder_packages);
+    }
+
     return (
         <View className="bg-white rounded-3xl px-6 py-2 mx-4 mt-6 shadow-md">
             <Stepper currentStep={1} totalSteps={3} />
@@ -23,7 +44,7 @@ const PageSelector = () => {
                         className="h-16 w-full"
                         size={"lg"}
                         label="Escolher Pacotes"
-                        onPress={() => { router.push(routersStrings.newOrder_packages) }}
+                        onPress={handleChoosePackages}
                     />
                     <AlertDialog>
                         <AlertDialogTrigger>
@@ -46,6 +67,7 @@ const PageSelector = () => {
                         label="Montar Orçamento Completo"
                         onPress={() => { router.push(routersStrings.newOrder_fullorder) }}
                     />
+
                     <AlertDialog>
                         <AlertDialogTrigger>
                             <Text
@@ -59,6 +81,31 @@ const PageSelector = () => {
                             <AlertDialogText>Escolha esta opção para montar seu orçamento do zero.</AlertDialogText>
                         </AlertDialogContent>
                     </AlertDialog>
+
+                    <Modal
+                        visible={isModalVisible}
+                        transparent
+                        animationType="fade"
+                        onRequestClose={() => setIsModalVisible(false)}
+                    >
+                        <View className="flex-1 items-center justify-center bg-black/50 px-6">
+                            <View className="bg-white rounded-2xl p-6 w-full max-w-md">
+                                <Text className="text-lg font-semibold mb-2 text-center">Deseja continuar?</Text>
+                                <Text className="text-gray-600 text-center mb-6">
+                                    Você já começou um pacote. Deseja apagar o anterior e começar um novo?
+                                </Text>
+
+                                <View className="flex-row justify-end gap-4">
+                                    <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                                        <Text className="text-gray-500">Cancelar</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={handleModalConfirm}>
+                                        <Text className="text-red-500 font-semibold">Sim, continuar novo</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
                 </View>
             </View>
         </View>
