@@ -82,7 +82,11 @@ const PageNewOrderResume = () => {
                             label="Cancelar"
                         />
                     </AlertDialogTrigger>
-                    <AlertDialogContent onConfirm={() => router.push(routersStrings.newOrder_packages)} >
+                    <AlertDialogContent onConfirm={() => {
+                        clearPack();
+                        clearEventData();
+                        router.push(routersStrings.newOrder_packages)
+                    }} >
                         <AlertDialogTitle>Confirmar</AlertDialogTitle>
                         <AlertDialogText>{"Atenção!!!\nVocê voltará ao inicio do seu orçamento!"}</AlertDialogText>
                     </AlertDialogContent>

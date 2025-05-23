@@ -37,8 +37,7 @@ export const FormSignIn: React.FC = () => {
 
     const onSubmit = async (data: schemaType) => {
         const { email, password } = data;
-        console.log("Login data", data);
-        
+
         await login({ email, password });
 
         //router.replace(routersStrings.home)

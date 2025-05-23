@@ -14,7 +14,6 @@ export default function HomeInital() {
     const tokenData = useTokenStore(state => state.tokenData);
 
     React.useEffect(() => {
-        console.log("HomeInital | tokenData:", tokenData);
         InteractionManager.runAfterInteractions(() => {
             if (tokenData)
                 router.push(routersStrings.home);
