@@ -8,7 +8,7 @@ type ContinueCardProps = {
 
 export default function ContinueCard({ onConfirm, onCancel }: ContinueCardProps) {
     return (
-        <View className="bg-[#F6EEE3] rounded-xl p-4 mx-4 mt-4 shadow-md">
+        <View className="bg-[#F6EEE3] rounded-xl p-4 mx-4 mt-4 mb-2 shadow-md">
             <Text className="text-[#4A2C18] text-base font-bold mb-2">
                 📋 Orçamento em andamento
             </Text>
