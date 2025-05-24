@@ -46,6 +46,10 @@ const generateOrderHTML = (order: Order) => {
 
         <h2>Total</h2>
         <p><strong>Valor Total:</strong> R$ ${budget.total_value.toFixed(2)}</p>
+
+        <div style="position: absolute; top: 24px; right: 24px;">
+            <img src="https://res.cloudinary.com/duxmkrglm/image/upload/v1748112520/ytc5gf6uj8xi6qijauaw.jpg" alt="Logo" width="100" />
+        </div>
       </body>
     </html>
   `;
