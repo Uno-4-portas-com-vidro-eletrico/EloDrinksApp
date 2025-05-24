@@ -11,7 +11,7 @@ import { useSales } from "@/hooks/useSales";
 import { PromoTextCarousel } from "../components/promo-carousel";
 
 export default function PageHome() {
-    const { setUser } = useUserStore();
+    const { setUser, user } = useUserStore();
     const { pack, eventData, clearEventData, clearPack } = usePackStore();
     const { data } = useUser();
     const { data: sales } = useSales(1, 3)
@@ -32,21 +32,20 @@ export default function PageHome() {
 
     return (
         <View>
+            <View className="mb-2 mt-4 px-4">
+                <Text
+                    className="font-semibold text-[#101820]"
+                    numberOfLines={1}
+                    adjustsFontSizeToFit
+                    style={{ fontSize: 24 }}
+                >
+                    Olá, <Text className="text-primary-500">{user?.name}</Text> 👋
+                </Text>
+            </View>
             {(eventData || pack) &&
                 <ContinueCard onCancel={handleCancel} onConfirm={handleConfirm} />
             }
-            <View className="mt-4" />
-
-            <Banners items={[
-                {
-                    imageUrl: "https://res.cloudinary.com/duxmkrglm/image/upload/v1745672656/owkqt4td0xderznpzsoh.png",
-                    link: routersStrings.history
-                },
-                {
-                    imageUrl: "https://res.cloudinary.com/duxmkrglm/image/upload/v1745672800/xladvuzrca1anq6eg6mr.png",
-                    link: routersStrings.history
-                }
-            ]} />
+            <View className="mt-6" />
             {sales && sales.length > 0 && (
                 <PromoTextCarousel
                     items={sales.map(sale => {
@@ -62,6 +61,17 @@ export default function PageHome() {
                     })}
                 />
             )}
+            <View className="mt-4" />
+            <Banners items={[
+                {
+                    imageUrl: "https://res.cloudinary.com/duxmkrglm/image/upload/v1745672656/owkqt4td0xderznpzsoh.png",
+                    link: routersStrings.history
+                },
+                {
+                    imageUrl: "https://res.cloudinary.com/duxmkrglm/image/upload/v1745672800/xladvuzrca1anq6eg6mr.png",
+                    link: routersStrings.history
+                }
+            ]} />
         </View>
     );
 }
