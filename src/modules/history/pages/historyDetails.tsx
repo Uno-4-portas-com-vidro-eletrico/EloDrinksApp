@@ -1,17 +1,35 @@
-import React from "react";
-import { View, Text, ScrollView } from "react-native";
-import { useOrderById } from "@/hooks/useOrders";
+import React, { useEffect } from "react";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { useDeleteOrder, useOrderById } from "@/hooks/useOrders";
 import { LoadingIndicator } from "@/modules/shared/components/commons/loading";
 import { OrderDetails } from "../components/order-details";
 import { BudgetDetails } from "../components/budget-details";
 import { Accordion } from "@/modules/shared/components/commons/collapsible-section";
+import { shareOrderAsPDF } from "@/modules/shared/utils/exportOrderToPdf";
+import { Button } from "@/modules/shared/components/ui/button";
+import { AlertDialog, AlertDialogContent, AlertDialogText, AlertDialogTitle, AlertDialogTrigger } from "@/modules/shared/components/ui/alert-dialog";
+import useToast from "@/modules/shared/hooks/useToast";
+import { router } from "expo-router";
+import { routersStrings } from "@/modules/shared/utils/routers";
 
 interface PageHistoryDetailsProps {
     id: string;
 }
 
 export const PageHistoryDetails = ({ id }: PageHistoryDetailsProps) => {
+    const showToast = useToast();
     const { data: order, isLoading } = useOrderById(id ?? "");
+    const { mutate: mutateDelete, isSuccess: isSuccessDelete, isError: isErrorDelete } = useDeleteOrder();
+
+    useEffect(() => {
+        if (isSuccessDelete) {
+            showToast("success", "Pedido atualizado com sucesso!");
+            router.push(routersStrings.history);
+        }
+        if (isErrorDelete) {
+            showToast("danger", "Ocorreu um erro ao atualizar o pedido.");
+        }
+    }, [isSuccessDelete, isErrorDelete]);
 
     if (isLoading) {
         return (
@@ -32,6 +50,26 @@ export const PageHistoryDetails = ({ id }: PageHistoryDetailsProps) => {
     return (
         <View className="bg-[#E0CEAA] h-full">
             <ScrollView className="bg-[#F7F6F3] mx-6 my-6 rounded-3xl py-4 px-4">
+                {order.order_status === "pending" && (
+                    <View className="flex flex-row w-full items-center mb-3">
+                        <View className="w-3/5 mr-2">
+                            <Text className="text-lg text-red-500 font-bold">Aguarde</Text>
+                            <Text className="text-sm text-gray-600">Este pedido está aguardando nossa aprovação.</Text>
+                        </View>
+                        <AlertDialog>
+                            <AlertDialogTrigger>
+                                <Button
+                                    className="w-2/5"
+                                    label="Cancelar"
+                                />
+                            </AlertDialogTrigger>
+                            <AlertDialogContent onConfirm={() => mutateDelete(order._id)} >
+                                <AlertDialogTitle>Confirmar cancelamento</AlertDialogTitle>
+                                <AlertDialogText>{"Atenção!!!\nVocê estará excluindo esse pedido de orçamento!"}</AlertDialogText>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                    </View>
+                )}
                 <Accordion
                     sections={[
                         {
@@ -44,6 +82,11 @@ export const PageHistoryDetails = ({ id }: PageHistoryDetailsProps) => {
                         }
                     ]}
                 />
+                <View className="mt-1 mb-8">
+                    <TouchableOpacity onPress={() => shareOrderAsPDF(order)} className="bg-white border border-[#8D4A24] px-4 py-2 rounded-lg">
+                        <Text className="text-[#8D4A24] font-bold text-center">Exportar Orçamento</Text>
+                    </TouchableOpacity>
+                </View>
             </ScrollView>
         </View>
     );

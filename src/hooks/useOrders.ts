@@ -1,6 +1,6 @@
 import { api } from "@/libs/api";
 import { Order } from "@/modules/schema/Order";
-import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useCreateOrder() {
     return useMutation({
@@ -48,6 +48,25 @@ export function useOrderById(orderId: string) {
                 console.error("Error fetching order:", error);
                 throw error;
             }
+        }
+    });
+}
+
+export function useDeleteOrder() {
+    const queryClient = useQueryClient();
+
+    return useMutation<void, unknown, string>({
+        mutationFn: async (newOrderId: string) => {
+            try {
+                await api.patch(`/orders/${newOrderId}/cancel`);
+            } catch (error: unknown) {
+                console.error("Error deleting order:", error);
+                throw error;
+            }
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["orders"] });
+            queryClient.invalidateQueries({ queryKey: ["order"] });
         }
     });
 }
