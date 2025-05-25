@@ -187,7 +187,7 @@ export default function Layout() {
                     <Tabs.Screen
                         name="new-order/full-order/index"
                         options={{
-                            title: "Orçamento",
+                            title: "Bebidas",
                             headerLeft: () => <BtnBackHeader confirmBack={true} />,
                             href: null,
                         }}
@@ -195,7 +195,7 @@ export default function Layout() {
                     <Tabs.Screen
                         name="new-order/full-order/second/index"
                         options={{
-                            title: "Orçamento",
+                            title: "Local",
                             headerLeft: () => <BtnBackHeader goBackTo={routersStrings.newOrder_fullorder} />,
                             href: null,
                         }}
