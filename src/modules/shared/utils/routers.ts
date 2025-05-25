@@ -13,7 +13,7 @@ export const routersStrings = {
     newOrder_packages3: "/(drawer)/(tabs)/new-order/packages/resume",
 
     newOrder_fullorder: "/(drawer)/(tabs)/new-order/full-order",
-    newOrder_fullorder2: "/(drawer)/(tabs)/new-order/full-order",
+    newOrder_fullorder2: "/(drawer)/(tabs)/new-order/full-order/second",
 
 
 };

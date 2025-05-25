@@ -9,6 +9,8 @@ import { Dialog, DialogContent, DialogTrigger } from "@/modules/shared/component
 import CartDialogContent from "../components/CartDialog";
 import ProductListItem from "../components/ProductListItem";
 import ProductListHeader from "../components/ProductListHeader";
+import { router } from "expo-router";
+import { routersStrings } from "@/modules/shared/utils/routers";
 
 const ProductsForm = () => {
     const [open, setOpen] = useState(false);
@@ -46,7 +48,7 @@ const ProductsForm = () => {
 
 
     const handleProceed = () => {
-
+        router.push(routersStrings.newOrder_fullorder2);
     };
 
     const isLoading = isSearching ? isSearchLoading : isLoadingInfinite;

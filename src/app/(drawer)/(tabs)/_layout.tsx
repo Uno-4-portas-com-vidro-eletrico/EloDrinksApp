@@ -192,6 +192,14 @@ export default function Layout() {
                             href: null,
                         }}
                     />
+                    <Tabs.Screen
+                        name="new-order/full-order/second/index"
+                        options={{
+                            title: "Orçamento",
+                            headerLeft: () => <BtnBackHeader goBackTo={routersStrings.newOrder_fullorder} />,
+                            href: null,
+                        }}
+                    />
                 </Tabs>
             </Host>
         </>
