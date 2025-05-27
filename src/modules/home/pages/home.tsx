@@ -9,10 +9,12 @@ import ContinueCard from "../components/continue-card";
 import { router } from "expo-router";
 import { useSales } from "@/hooks/useSales";
 import { PromoTextCarousel } from "../components/promo-carousel";
+import { useFullOrderStore } from "@/modules/full-order/store/useFullorderStore";
 
 export default function PageHome() {
     const { setUser, user } = useUserStore();
     const { pack, eventData, clearEventData, clearPack } = usePackStore();
+    const { cart, eventData: eventDataFull, structure, clearCart, clearEventData: clearEventDataFull, clearStructure } = useFullOrderStore();
     const { data } = useUser();
     const { data: sales } = useSales(1, 3)
 
@@ -23,11 +25,17 @@ export default function PageHome() {
     function handleConfirm() {
         if (eventData) router.push(routersStrings.newOrder_packages2);
         else if (pack) router.push(routersStrings.newOrder_packages);
+        else if (eventDataFull) router.push(routersStrings.newOrder_fullorder3);
+        else if (structure) router.push(routersStrings.newOrder_fullorder2);
+        else if (cart.products.length != 0) router.push(routersStrings.newOrder_fullorder);
     }
 
     function handleCancel() {
         clearPack();
         clearEventData();
+        clearCart();
+        clearEventDataFull();
+        clearStructure();
     }
 
     return (
@@ -42,7 +50,7 @@ export default function PageHome() {
                     Olá, <Text className="text-primary-500">{user?.name}</Text> 👋
                 </Text>
             </View>
-            {(eventData || pack) &&
+            {(eventData || pack || eventDataFull || structure || cart.products.length != 0) &&
                 <ContinueCard onCancel={handleCancel} onConfirm={handleConfirm} />
             }
             <View className="mt-6" />

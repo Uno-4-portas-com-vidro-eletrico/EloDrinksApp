@@ -33,12 +33,12 @@ const PageNewOrderInitial = () => {
     useEffect(() => {
         if (isSuccess) {
             showToast("success", "Pacote criado com sucesso!");
-            router.push(routersStrings.home);
             setTimeout(() => {
                 clearCart();
                 clearEventData();
                 clearStructure();
             }, 100);
+            router.push(routersStrings.home);
         }
         if (isError) {
             showToast("danger", "Ocorreu um erro ao criar o pacote.");

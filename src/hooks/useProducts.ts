@@ -17,7 +17,6 @@ export function useProductsInfinite(pageSize: number) {
             });
             const products = response.data as ProductInCart[]
             products.forEach(product => product.quantity = 0);
-            console.log(products)
             return products;
         },
         getNextPageParam: (lastPage, allPages) => {
