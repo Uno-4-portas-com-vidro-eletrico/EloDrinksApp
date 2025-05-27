@@ -1,14 +1,14 @@
 import { DialogTrigger } from "@/modules/shared/components/ui/dialog";
-import { useCartStore } from "../store/useCartStore";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { formatCurrency } from "@/modules/shared/utils/currentcy";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { ProductInCart } from "@/modules/schema/Product";
 import formatFirstLetterToUpper from "@/modules/shared/utils/text";
+import { useFullOrderStore } from "../store/useFullorderStore";
 
 
 export default function CartDialogContent() {
-    const { cart, updateCart } = useCartStore()
+    const { cart, updateCart } = useFullOrderStore()
 
     const removeItemFromCart = (product: ProductInCart) => {
         updateCart({ ...product, quantity: 0 })
