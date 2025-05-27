@@ -195,8 +195,24 @@ export default function Layout() {
                     <Tabs.Screen
                         name="new-order/full-order/second/index"
                         options={{
-                            title: "Local",
+                            title: "Estruturas",
                             headerLeft: () => <BtnBackHeader goBackTo={routersStrings.newOrder_fullorder} />,
+                            href: null,
+                        }}
+                    />
+                    <Tabs.Screen
+                        name="new-order/full-order/third/index"
+                        options={{
+                            title: "Dados do evento",
+                            headerLeft: () => <BtnBackHeader goBackTo={routersStrings.newOrder_fullorder2} />,
+                            href: null,
+                        }}
+                    />
+                    <Tabs.Screen
+                        name="new-order/full-order/resume/index"
+                        options={{
+                            title: "Resumo do pedido",
+                            headerLeft: () => <BtnBackHeader goBackTo={routersStrings.newOrder_fullorder3} />,
                             href: null,
                         }}
                     />

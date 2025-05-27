@@ -2,16 +2,16 @@ import { ProductInCart } from "@/modules/schema/Product"
 import { formatCurrency } from "@/modules/shared/utils/currentcy"
 import { useEffect, useState } from "react"
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native"
-import { useCartStore } from "../store/useCartStore"
 import { FontAwesome5 } from "@expo/vector-icons"
 import formatFirstLetterToUpper from "@/modules/shared/utils/text"
+import { useFullOrderStore } from "../store/useFullorderStore"
 
 type Props = {
     product: ProductInCart
 }
 
 export default function ProductListItem({ product }: Props) {
-    const { cart, updateCart } = useCartStore();
+    const { cart, updateCart } = useFullOrderStore();
     const productInCart = cart.products.find(p => p.id === product.id);
     const [quantity, setQuantity] = useState<number>(productInCart?.quantity ?? 0);
 

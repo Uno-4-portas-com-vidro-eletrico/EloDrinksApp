@@ -2,7 +2,6 @@ import { useProductsInfinite, useSearchProducts } from "@/hooks/useProducts"
 import { SearchBar } from "@/modules/shared/components/commons/search-bar";
 import { useState } from "react";
 import { SectionList, Text, TouchableOpacity, View } from "react-native";
-import { useCartStore } from "../store/useCartStore";
 import { LoadingIndicator } from "@/modules/shared/components/commons/loading";
 import CartIcon from "../components/CartIcon";
 import { Dialog, DialogContent, DialogTrigger } from "@/modules/shared/components/ui/dialog";
@@ -11,6 +10,8 @@ import ProductListItem from "../components/ProductListItem";
 import ProductListHeader from "../components/ProductListHeader";
 import { router } from "expo-router";
 import { routersStrings } from "@/modules/shared/utils/routers";
+import { useFullOrderStore } from "../store/useFullorderStore";
+import { Ionicons } from "@expo/vector-icons";
 
 const ProductsForm = () => {
     const [open, setOpen] = useState(false);
@@ -19,7 +20,7 @@ const ProductsForm = () => {
         { label: 'Nome', value: 'nome' }
     ]);
     const [searchQuery, setSearchQuery] = useState('');
-    const cart = useCartStore(state => state.cart);
+    const { cart } = useFullOrderStore();
 
     const {
         data: infiniteData,
@@ -89,22 +90,23 @@ const ProductsForm = () => {
                         isLoading ? (
                             <LoadingIndicator />
                         ) : (
-                            <View className="mb-14" />
+                            <View className="mb-12" />
                         )
                     }
                 />
 
             </View>
             {cart.products.length > 0 && (
-                <View className="absolute bottom-4 left-4 right-4 flex-row justify-between">
+                <View className="absolute bottom-6 left-6 right-6 flex-row justify-between">
                     <DialogTrigger>
                         <CartIcon />
                     </DialogTrigger>
                     <TouchableOpacity
-                        className="bg-[#9D4815] px-6 py-4 rounded-3xl items-center"
+                        className="bg-[#9D4815] p-3 px-6 rounded-full flex-row items-center justify-center"
                         onPress={() => handleProceed()}
                     >
-                        <Text className="text-white font-bold text-lg">Confirmar</Text>
+                        <Text className="text-white font-semibold mr-2">Avançar</Text>
+                        <Ionicons name="arrow-forward" size={20} color="#fff" />
                     </TouchableOpacity>
                 </View>
             )}

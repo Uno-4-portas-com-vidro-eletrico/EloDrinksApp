@@ -14,6 +14,6 @@ export const routersStrings = {
 
     newOrder_fullorder: "/(drawer)/(tabs)/new-order/full-order",
     newOrder_fullorder2: "/(drawer)/(tabs)/new-order/full-order/second",
-
-
+    newOrder_fullorder3: "/(drawer)/(tabs)/new-order/full-order/third",
+    newOrder_fullorder4: "/(drawer)/(tabs)/new-order/full-order/resume",
 };
