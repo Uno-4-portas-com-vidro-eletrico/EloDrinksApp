@@ -14,15 +14,8 @@ const CustomDrawerContent = ({ ...props }) => {
     const pathname = usePathname();
     const resetToken = useTokenStore(state => state.resetToken)
 
-    const itemsMenu = [
-        {
-            label: "Notificações",
-            icon: <Feather name="bell" size={16} color={pathname === "/notifications" ? "#AC4EA3" : "#000"} />,
-            path: "/notifications",
-            router: "/(drawer)/(tabs)/notifications",
-            show: false,
-        }
-    ];
+    // const itemsMenu = [
+    // ];
 
     const itemsMenuCompany = [
         {
@@ -41,7 +34,7 @@ const CustomDrawerContent = ({ ...props }) => {
     return (
         <DrawerContentScrollView {...props} showsVerticalScrollIndicator={true}>
             <View className="p-2">
-                {itemsMenu
+                {/* {itemsMenu
                     ?.filter((item) => item.show)
                     ?.map((item) => (
                         <DrawerItem
@@ -63,7 +56,7 @@ const CustomDrawerContent = ({ ...props }) => {
                                 router.push(item.router);
                             }}
                         />
-                    ))}
+                    ))} */}
 
                 {itemsMenuCompany
                     ?.filter((item) => item.show)
