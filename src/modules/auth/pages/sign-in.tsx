@@ -10,7 +10,7 @@ export const PageSignIn: React.FC = () => {
 
     return (
         <KeyboardAwareScrollView>
-            <View>
+            <View className="bg-[#E0CEAA]">
                 <View className="flex h-screen items-center border-box">
                     <HeaderWithBack />
                     <Image className="mb-10" source={require("@/assets/images/logo-full.png")} />

@@ -9,9 +9,9 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#101820"
+      "backgroundColor": "#E0CEAA"
     },
     "ios": {
       "supportsTablet": true,
@@ -22,8 +22,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#101820"
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#E0CEAA"
       },
       "package": "com.uno4portas.EloDrinksApp"
     },
@@ -37,7 +37,16 @@
     },
     "owner": "elpandadlmx",
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#E0CEAA",
+          "image": "./assets/icon.png",
+          "resizeMode": "cover",
+          "imageWidth": 240
+        }
+      ]
     ]
   }
 }
