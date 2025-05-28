@@ -6,16 +6,26 @@ import { routersStrings } from "@/modules/shared/utils/routers";
 import { AlertDialog, AlertDialogContent, AlertDialogText, AlertDialogTitle, AlertDialogTrigger } from "@/modules/shared/components/ui/alert-dialog";
 import { usePackStore } from "@/modules/packages/store/useOrderStore";
 import { useState } from "react";
+import { useFullOrderStore } from "@/modules/full-order/store/useFullorderStore";
 
 const PageSelector = () => {
     const { pack, clearPack, clearEventData } = usePackStore();
+    const { cart } = useFullOrderStore();
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     function handleChoosePackages() {
-        if (pack) {
+        if (pack || cart.products.length > 0) {
             setIsModalVisible(true);
         } else {
             router.push(routersStrings.newOrder_packages);
+        }
+    }
+
+    function handleChooseFull() {
+        if (pack || cart.products.length > 0) {
+            setIsModalVisible(true);
+        } else {
+            router.push(routersStrings.newOrder_fullorder);
         }
     }
 
@@ -65,7 +75,7 @@ const PageSelector = () => {
                         className="h-20 w-full"
                         size={"lg"}
                         label="Montar Orçamento Completo"
-                        onPress={() => { router.push(routersStrings.newOrder_fullorder) }}
+                        onPress={handleChooseFull}
                     />
 
                     <AlertDialog>
