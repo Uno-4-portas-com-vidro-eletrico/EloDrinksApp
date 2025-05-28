@@ -54,9 +54,10 @@ export const NotificationCard = ({
             onPress={() => onPress(page)}
             disabled={isPending}
             activeOpacity={0.8}
-            className={"p-4 mb-3 rounded-xl bg-[#f3f3f3] border-[0.1px]"}
+            className={"p-4 mb-3 rounded-xl border-[0.1px]"}
+            style={{ backgroundColor: isRead ? "#f3f3f3" : "#e6e6e6" }}
         >
-            <Text className="mb-1 text-base font-semibold text-[#111]">
+            <Text className="mb-1 text-base font-semibold text-[#111] ">
                 {title.split(" ").map((word, idx) =>
                     word.startsWith("#") ? (
                         <Text key={idx} className="text-xs">
@@ -85,7 +86,7 @@ export const NotificationCard = ({
                 <Text className="text-xs text-[#999]">
                     {formatDate(new Date(new Date(createdAt).getTime() - 3 * 60 * 60 * 1000).toISOString())}
                 </Text>
-                {!isRead && <View className="w-2 h-2 rounded-full bg-orange-500" />}
+                {!isRead && <View className="w-2 h-2 rounded-full bg-[#9D4815]" />}
             </View>
         </TouchableOpacity>
     );
