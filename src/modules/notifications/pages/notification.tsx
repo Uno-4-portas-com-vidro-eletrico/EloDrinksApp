@@ -18,7 +18,7 @@ const PageNotification = () => {
     const notifications = data?.pages?.flat();
 
     return (
-        <View className="bg-[#F7F6F3] rounded-3xl px-6 py-2 mx-4 mt-6 shadow-md flex-1 h-full">
+        <View className="bg-[#F7F6F3] rounded-3xl px-6 py-4 mx-4 mt-6 shadow-md flex-1 h-full">
             <FlatList
                 data={notifications}
                 renderItem={({ item }) => {

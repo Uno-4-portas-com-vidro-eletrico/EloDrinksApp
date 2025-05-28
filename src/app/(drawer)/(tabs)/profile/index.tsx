@@ -1,13 +1,17 @@
+import { LoadingIndicator } from "@/modules/shared/components/commons/loading";
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 
-export default function History() {
+const PageProfile = React.lazy(
+	() => import("@/modules/profile/pages/profile"),
+);
 
+export default function Home() {
 	return (
-		<View>
-			<Text>
-				perfil
-			</Text>
-		</View>
+		<React.Suspense fallback={<LoadingIndicator />}>
+			<View className="bg-[#E0CEAA] h-full pb-4 justify-center">
+				<PageProfile />
+			</View>
+		</React.Suspense>
 	);
 }

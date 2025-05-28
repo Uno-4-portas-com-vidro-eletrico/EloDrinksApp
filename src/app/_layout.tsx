@@ -44,7 +44,7 @@ export default function Layout() {
                     },
                     gestureEnabled: false,
                     contentStyle: {
-                        backgroundColor: "#E0CEAA",
+                        backgroundColor: "#101820",
                     },
                 }}
             >
