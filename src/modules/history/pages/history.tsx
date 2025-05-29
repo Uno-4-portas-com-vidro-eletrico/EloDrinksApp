@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { View } from "react-native";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/modules/shared/components/ui/tabs";
 import { useOrdersInfinite } from "@/hooks/useOrders";
 import { useUserStore } from "@/modules/auth/store/useUser";
 import { OrdersTab } from "../components/order-tab";
+import { useFocusEffect } from "expo-router";
 
 const PageHistory = () => {
     const { user } = useUserStore();
@@ -14,7 +15,16 @@ const PageHistory = () => {
         hasNextPage,
         isFetchingNextPage,
         isLoading,
+        refetch
     } = useOrdersInfinite(user?.id ?? 0, 10);
+
+    useFocusEffect(
+        useCallback(() => {
+            if (user?.id) {
+                refetch();
+            }
+        }, [user?.id, refetch])
+    );
 
     const allOrders = data?.pages.flat() ?? [];
 

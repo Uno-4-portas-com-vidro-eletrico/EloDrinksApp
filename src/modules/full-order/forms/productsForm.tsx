@@ -1,6 +1,6 @@
 import { useProductsInfinite, useSearchProducts } from "@/hooks/useProducts"
 import { SearchBar } from "@/modules/shared/components/commons/search-bar";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { SectionList, Text, TouchableOpacity, View } from "react-native";
 import { LoadingIndicator } from "@/modules/shared/components/commons/loading";
 import CartIcon from "../components/CartIcon";
@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/modules/shared/component
 import CartDialogContent from "../components/CartDialog";
 import ProductListItem from "../components/ProductListItem";
 import ProductListHeader from "../components/ProductListHeader";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { routersStrings } from "@/modules/shared/utils/routers";
 import { useFullOrderStore } from "../store/useFullorderStore";
 import { Ionicons } from "@expo/vector-icons";
@@ -28,7 +28,14 @@ const ProductsForm = () => {
         hasNextPage,
         isFetchingNextPage,
         isLoading: isLoadingInfinite,
+        refetch
     } = useProductsInfinite(10);
+
+    useFocusEffect(
+        useCallback(() => {
+            refetch();
+        }, [refetch])
+    );
 
     const {
         data: searchData,

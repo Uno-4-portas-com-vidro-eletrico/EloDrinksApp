@@ -18,7 +18,14 @@ export default function BarStructureForm() {
         hasNextPage,
         isFetchingNextPage,
         isLoading,
+        refetch
     } = useStructureInfinite(10);
+
+    useFocusEffect(
+        useCallback(() => {
+            refetch();
+        }, [refetch])
+    );
 
     const structures = infiniteData?.pages.flat() ?? [];
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { useDeleteOrder, useOrderById } from "@/hooks/useOrders";
 import { LoadingIndicator } from "@/modules/shared/components/commons/loading";
@@ -9,7 +9,7 @@ import { shareOrderAsPDF } from "@/modules/shared/utils/exportOrderToPdf";
 import { Button } from "@/modules/shared/components/ui/button";
 import { AlertDialog, AlertDialogContent, AlertDialogText, AlertDialogTitle, AlertDialogTrigger } from "@/modules/shared/components/ui/alert-dialog";
 import useToast from "@/modules/shared/hooks/useToast";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { routersStrings } from "@/modules/shared/utils/routers";
 
 interface PageHistoryDetailsProps {
@@ -18,8 +18,16 @@ interface PageHistoryDetailsProps {
 
 export const PageHistoryDetails = ({ id }: PageHistoryDetailsProps) => {
     const showToast = useToast();
-    const { data: order, isLoading } = useOrderById(id ?? "");
+    const { data: order, isLoading, refetch } = useOrderById(id ?? "");
     const { mutate: mutateDelete, isSuccess: isSuccessDelete, isError: isErrorDelete } = useDeleteOrder();
+
+    useFocusEffect(
+        useCallback(() => {
+            if (id) {
+                refetch();
+            }
+        }, [id, refetch])
+    );
 
     useEffect(() => {
         if (isSuccessDelete) {

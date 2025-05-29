@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, FlatList, TextInput } from 'react-native';
 import { NotificationCard } from '../components/notification-card';
 import { useNotificationsInfinite } from '@/hooks/useNotifications';
 import { useUserStore } from '@/modules/auth/store/useUser';
 import { LoadingIndicator } from '@/modules/shared/components/commons/loading';
+import { useFocusEffect } from 'expo-router';
 
 const PageNotification = () => {
     const { user } = useUserStore();
@@ -13,9 +14,18 @@ const PageNotification = () => {
         hasNextPage,
         isFetchingNextPage,
         isLoading,
-    } = useNotificationsInfinite(user?.id || 1, 10);
+        refetch
+    } = useNotificationsInfinite(user?.id ?? 0, 10);
 
     const notifications = data?.pages?.flat();
+
+    useFocusEffect(
+        useCallback(() => {
+            if (user?.id) {
+                refetch();
+            }
+        }, [user?.id, refetch])
+    );
 
     return (
         <View className="bg-[#F7F6F3] rounded-3xl px-6 py-4 mx-4 mt-6 shadow-md flex-1 h-full">
