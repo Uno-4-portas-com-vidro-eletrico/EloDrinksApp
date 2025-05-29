@@ -11,12 +11,14 @@ import { cn } from "@/modules/shared/utils/cn";
 import { BtnBackHeader } from "@/modules/shared/components/commons/btn-back-button";
 import FlashMessage from "react-native-flash-message";
 import { routersStrings } from "@/modules/shared/utils/routers";
+import { useFullOrderStore } from "@/modules/full-order/store/useFullorderStore";
 
 export function ErrorBoundary(props: ErrorBoundaryProps) {
     return <ErrorBoundaryComponent {...props} />;
 }
 
 export default function Layout() {
+    const {clearCart, clearEventData, clearStructure } = useFullOrderStore();
     return (
         <>
             <FlashMessage />
@@ -188,7 +190,11 @@ export default function Layout() {
                         name="new-order/full-order/index"
                         options={{
                             title: "Bebidas",
-                            headerLeft: () => <BtnBackHeader confirmBack={true} />,
+                            headerLeft: () => <BtnBackHeader confirmBack={true}  confirmBackFn={() => {
+                                clearCart();
+                                clearEventData();
+                                clearStructure();
+                            }}/>,
                             href: null,
                         }}
                     />
