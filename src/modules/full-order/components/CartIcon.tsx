@@ -4,7 +4,7 @@ import { useFullOrderStore } from "../store/useFullorderStore";
 
 export default function CartIcon(props: TouchableOpacityProps) {
     const { cart } = useFullOrderStore();
-    const amount = cart.products.length;
+    const amount = cart.products.reduce((total, product) => total + (product.quantity || 1), 0);
 
     return (
         <TouchableOpacity
