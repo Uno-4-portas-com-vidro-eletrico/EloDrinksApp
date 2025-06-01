@@ -1,11 +1,12 @@
 import { Order } from '@/modules/schema/Order';
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
+import * as FileSystem from 'expo-file-system';
 
 const generateOrderHTML = (order: Order) => {
-    const { customer, date, guest_count, location, budget } = order;
+  const { customer, date, guest_count, location, budget } = order;
 
-    const itemsHtml = budget.items.map(item => `
+  const itemsHtml = budget.items.map(item => `
     <tr>
       <td>${item.name}</td>
       <td>${item.category}</td>
@@ -15,7 +16,7 @@ const generateOrderHTML = (order: Order) => {
     </tr>
   `).join('');
 
-    return `
+  return `
     <html>
       <body style="font-family: sans-serif; padding: 24px;">
         <h1>Resumo do Orçamento</h1>
@@ -56,21 +57,27 @@ const generateOrderHTML = (order: Order) => {
 };
 
 export const shareOrderAsPDF = async (order: Order) => {
-    try {
-        const html = generateOrderHTML(order);
-        const { uri } = await Print.printToFileAsync({ html });
+  try {
+    const html = generateOrderHTML(order);
+    const { uri } = await Print.printToFileAsync({ html });
 
-        if (await Sharing.isAvailableAsync()) {
-            await Sharing.shareAsync(uri, {
-                mimeType: 'application/pdf',
-                dialogTitle: 'Compartilhar Orçamento PDF'
-            });
-        } else {
-            alert('Compartilhamento não disponível neste dispositivo');
-        }
-    } catch (error: unknown) {
-        console.error('Erro ao compartilhar PDF:', error);
-        const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
-        alert(`Erro ao gerar o PDF para compartilhamento: ${errorMessage}`);
+    const newPath = `${FileSystem.documentDirectory}orcamento_${order._id}.pdf`;
+    await FileSystem.moveAsync({
+      from: uri,
+      to: newPath,
+    });
+
+    if (await Sharing.isAvailableAsync()) {
+      await Sharing.shareAsync(newPath, {
+        mimeType: 'application/pdf',
+        dialogTitle: 'Compartilhar Orçamento PDF',
+      });
+    } else {
+      alert('Compartilhamento não disponível neste dispositivo');
     }
+  } catch (error: unknown) {
+    console.error('Erro ao compartilhar PDF:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+    alert(`Erro ao gerar o PDF para compartilhamento: ${errorMessage}`);
+  }
 };
