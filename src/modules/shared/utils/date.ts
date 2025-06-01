@@ -9,3 +9,10 @@ export const formatDate = (dateString: string) => {
         hour12: false,
     });
 };
+
+export const formatToISOStringWithOffset = (dateString?: string, offsetHours: number = -3) => {
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    date.setHours(date.getHours() + offsetHours, date.getMinutes(), 0, 0);
+    return date.toISOString().replace(/:\d{2}\.\d{3}Z$/, ':00');
+};

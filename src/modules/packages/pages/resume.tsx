@@ -16,6 +16,7 @@ import { Product } from "@/modules/schema/Product";
 import { useProduct } from "@/hooks/useProducts";
 import { useUserStore } from "@/modules/auth/store/useUser";
 import useToast from "@/modules/shared/hooks/useToast";
+import { formatToISOStringWithOffset } from "@/modules/shared/utils/date";
 
 const PageNewOrderResume = () => {
     const showToast = useToast();
@@ -128,8 +129,8 @@ const PageNewOrderResume = () => {
                                 "phone": parseInt((user?.telephone ?? "").replace(/\D/g, ""), 10)
                             },
                             "date": {
-                                "start": eventData?.startDate,
-                                "end": eventData?.endDate
+                                "start": formatToISOStringWithOffset(eventData?.startDate),
+                                "end": formatToISOStringWithOffset(eventData?.endDate)
                             },
                             "guest_count": pack?.guest_count,
                             "location": eventData?.location,

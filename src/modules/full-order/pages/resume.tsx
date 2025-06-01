@@ -12,6 +12,7 @@ import { routersStrings } from "@/modules/shared/utils/routers";
 import { useCreateOrder } from "@/hooks/useOrders";
 import { AlertDialog, AlertDialogContent, AlertDialogText, AlertDialogTitle, AlertDialogTrigger } from "@/modules/shared/components/ui/alert-dialog";
 import { Button } from "@/modules/shared/components/ui/button";
+import { formatToISOStringWithOffset } from "@/modules/shared/utils/date";
 
 
 const PageNewOrderInitial = () => {
@@ -106,8 +107,8 @@ const PageNewOrderInitial = () => {
                                 "phone": parseInt((user?.telephone ?? "").replace(/\D/g, ""), 10)
                             },
                             "date": {
-                                "start": eventData?.startDate,
-                                "end": eventData?.endDate
+                                "start": formatToISOStringWithOffset(eventData?.startDate),
+                                "end": formatToISOStringWithOffset(eventData?.endDate)
                             },
                             "guest_count": eventData?.guestCount,
                             "location": eventData?.location,
