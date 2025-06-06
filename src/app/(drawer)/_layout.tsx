@@ -34,29 +34,6 @@ const CustomDrawerContent = ({ ...props }) => {
     return (
         <DrawerContentScrollView {...props} showsVerticalScrollIndicator={true}>
             <View className="p-2">
-                {/* {itemsMenu
-                    ?.filter((item) => item.show)
-                    ?.map((item) => (
-                        <DrawerItem
-                            key={item.path}
-                            icon={() => item.icon}
-                            label={item.label}
-                            labelStyle={[
-                                { fontWeight: "400", color: "#000", marginLeft: -20 },
-                            ]}
-                            style={{
-                                backgroundColor: pathname === item.path ? "#AC4EA320" : "#white",
-                                borderWidth: 1,
-                                borderRadius: 8,
-                                borderColor: pathname === item.path ? "#AC4EA390" : "#101820",
-                                paddingVertical: 0,
-                                marginVertical: 3,
-                            }}
-                            onPress={() => {
-                                router.push(item.router);
-                            }}
-                        />
-                    ))} */}
 
                 {itemsMenuCompany
                     ?.filter((item) => item.show)
