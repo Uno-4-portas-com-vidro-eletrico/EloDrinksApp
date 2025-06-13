@@ -3,7 +3,7 @@
     "name": "EloDrinksApp",
     "slug": "EloDrinksApp",
     "version": "1.0.0",
-    "scheme": "com.uno4portas.EloDrinksApp",
+    "scheme": "com.uno4portas.elodrinksapp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
