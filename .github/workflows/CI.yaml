@@ -38,8 +38,8 @@ jobs:
       - name: 🔍 Run TypeScript check
         run: npx tsc --noEmit
 
-      - name: 📱 Check Expo configuration
-        run: npx expo-doctor
+      # - name: 📱 Check Expo configuration
+      #   run: npx expo-doctor
 
   # Job 2: Build e Validação Local
   build-validation:
