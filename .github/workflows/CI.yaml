@@ -66,11 +66,13 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci
 
-      - name: 🔧 Setup React Native environment
+      - name: 🔧 Setup Java 17
         run: |
           sudo apt-get update
-          sudo apt-get install -y openjdk-11-jdk
-          echo "JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> $GITHUB_ENV
+          sudo apt-get install -y openjdk-17-jdk
+          echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
+          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+          export PATH=$JAVA_HOME/bin:$PATH
 
       - name: 📱 Expo prebuild (Android)
         run: npx expo prebuild --platform android
