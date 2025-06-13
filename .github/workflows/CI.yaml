@@ -11,7 +11,6 @@ env:
   EXPO_CLI_VERSION: 'latest'
 
 jobs:
-  # Job 1: Testes e Qualidade de Código
   test-and-lint:
     name: Tests & Code Quality
     runs-on: ubuntu-latest
@@ -29,19 +28,9 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci
 
-      # - name: 🧹 Run ESLint
-      #   run: npm run lint
-
-      # - name: 🎨 Check Prettier formatting
-      #   run: npm run format:check
-
       - name: 🔍 Run TypeScript check
         run: npx tsc --noEmit
 
-      # - name: 📱 Check Expo configuration
-      #   run: npx expo-doctor
-
-  # Job 2: Build e Validação Local
   build-validation:
     name: Build Validation
     runs-on: ubuntu-latest
@@ -99,7 +88,6 @@ jobs:
           npx expo prebuild --platform ios --clear
           cd ios && xcodebuild -workspace *.xcworkspace -scheme * -configuration Release -archivePath build/App.xcarchive archive CODE_SIGNING_ALLOWED=NO
 
-  # Job 3: Security Scan
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
@@ -124,183 +112,3 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
-
-  # Job 4: Build de Produção (apenas para releases)
-  # production-build:
-  #   name: Production Build
-  #   runs-on: ${{ matrix.os }}
-  #   needs: [test-and-lint, build-validation, security-scan]
-  #   if: github.event_name == 'release'
-    
-  #   strategy:
-  #     matrix:
-  #       include:
-  #         - platform: android
-  #           os: ubuntu-latest
-  #         - platform: ios
-  #           os: macos-latest
-    
-  #   steps:
-  #     - name: 🏗 Setup repo
-  #       uses: actions/checkout@v4
-
-  #     - name: 🏗 Setup Node
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: ${{ env.NODE_VERSION }}
-  #         cache: 'npm'
-
-  #     - name: 🏗 Setup Expo
-  #       uses: expo/expo-github-action@v8
-  #       with:
-  #         expo-version: ${{ env.EXPO_CLI_VERSION }}
-  #         token: ${{ secrets.EXPO_TOKEN }}
-
-  #     - name: 📦 Install dependencies
-  #       run: npm ci
-
-  #     # Android Build
-  #     - name: 🔧 Setup Android environment
-  #       if: matrix.platform == 'android'
-  #       run: |
-  #         sudo apt-get update
-  #         sudo apt-get install -y openjdk-11-jdk
-  #         echo "JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> $GITHUB_ENV
-
-  #     - name: 📱 Prebuild Android
-  #       if: matrix.platform == 'android'
-  #       run: npx expo prebuild --platform android --clear
-
-  #     - name: 🔐 Setup Android signing
-  #       if: matrix.platform == 'android'
-  #       run: |
-  #         echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > android/app/upload-keystore.keystore
-  #         echo "MYAPP_UPLOAD_STORE_FILE=upload-keystore.keystore" >> android/gradle.properties
-  #         echo "MYAPP_UPLOAD_KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/gradle.properties
-  #         echo "MYAPP_UPLOAD_STORE_PASSWORD=${{ secrets.ANDROID_STORE_PASSWORD }}" >> android/gradle.properties
-  #         echo "MYAPP_UPLOAD_KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/gradle.properties
-
-  #     - name: 🔨 Build Android Bundle
-  #       if: matrix.platform == 'android'
-  #       run: |
-  #         cd android
-  #         ./gradlew bundleRelease --no-daemon
-
-  #     # iOS Build
-  #     - name: 🍎 Setup iOS environment
-  #       if: matrix.platform == 'ios'
-  #       run: |
-  #         npx expo prebuild --platform ios --clear
-
-  #     - name: 🔐 Setup iOS certificates
-  #       if: matrix.platform == 'ios'
-  #       uses: apple-actions/import-codesign-certs@v2
-  #       with:
-  #         p12-file-base64: ${{ secrets.IOS_DIST_CERT }}
-  #         p12-password: ${{ secrets.IOS_DIST_CERT_PASSWORD }}
-
-  #     - name: 🔐 Setup iOS provisioning profile
-  #       if: matrix.platform == 'ios'
-  #       uses: apple-actions/download-provisioning-profiles@v2
-  #       with:
-  #         bundle-id: com.seuapp.mobile
-  #         issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
-  #         api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
-  #         api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
-
-  #     - name: 🔨 Build iOS Archive
-  #       if: matrix.platform == 'ios'
-  #       run: |
-  #         cd ios
-  #         xcodebuild -workspace *.xcworkspace -scheme * -configuration Release -archivePath build/App.xcarchive archive
-
-  #     - name: 📤 Upload build artifacts
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: build-${{ matrix.platform }}-${{ github.sha }}
-  #         path: |
-  #           android/app/build/outputs/bundle/release/*.aab
-  #           ios/build/App.xcarchive
-  #         retention-days: 30
-
-  # Job 5: Deploy via Fastlane (apenas para releases)
-  # deploy:
-  #   name: Deploy to Stores
-  #   runs-on: ${{ matrix.os }}
-  #   needs: production-build
-  #   if: github.event_name == 'release'
-    
-  #   strategy:
-  #     matrix:
-  #       include:
-  #         - platform: android
-  #           os: ubuntu-latest
-  #         - platform: ios
-  #           os: macos-latest
-    
-  #   steps:
-  #     - name: 🏗 Setup repo
-  #       uses: actions/checkout@v4
-
-  #     - name: 📥 Download build artifacts
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: build-${{ matrix.platform }}-${{ github.sha }}
-
-  #     - name: 🔧 Setup Ruby (for Fastlane)
-  #       uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: '3.0'
-  #         bundler-cache: true
-
-  #     - name: 📦 Install Fastlane
-  #       run: |
-  #         gem install fastlane
-
-  #     # Android Deploy
-  #     - name: 🤖 Deploy to Google Play
-  #       if: matrix.platform == 'android'
-  #       run: |
-  #         echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}" | base64 --decode > google-play-service-account.json
-  #         fastlane supply --aab android/app/build/outputs/bundle/release/app-release.aab --track internal --json_key google-play-service-account.json
-
-  #     # iOS Deploy
-  #     - name: 🍎 Deploy to App Store
-  #       if: matrix.platform == 'ios'
-  #       run: |
-  #         fastlane pilot upload --ipa ios/build/App.xcarchive/Products/Applications/*.ipa --api_key_path appstore-api-key.json
-  #       env:
-  #         FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-
-  # Job 6: Update Expo (apenas para main)
-  # expo-update:
-  #   name: Expo OTA Update
-  #   runs-on: ubuntu-latest
-  #   needs: [test-and-lint, security-scan]
-  #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
-  #   steps:
-  #     - name: 🏗 Setup repo
-  #       uses: actions/checkout@v4
-
-  #     - name: 🏗 Setup Node
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: ${{ env.NODE_VERSION }}
-  #         cache: 'npm'
-
-  #     - name: 🏗 Setup Expo and EAS
-  #       uses: expo/expo-github-action@v8
-  #       with:
-  #         expo-version: ${{ env.EXPO_CLI_VERSION }}
-  #         eas-version: latest
-  #         token: ${{ secrets.EXPO_TOKEN }}
-
-  #     - name: 📦 Install dependencies
-  #       run: npm ci
-
-  #     - name: 📡 Publish Expo Update
-  #       run: |
-  #         eas update --branch production --message "Auto-update from commit ${{ github.sha }}"
-  #       env:
-  #         EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
